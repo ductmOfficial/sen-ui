@@ -16,7 +16,7 @@ describe("Button", () => {
 
     const button = screen.getByRole("button", { name: "Save" });
     expect(button).toHaveAttribute("type", "button");
-    expect(button).toHaveClass("btn", "btn-primary");
+    expect(button).toHaveAttribute("data-variant", "primary");
   });
 
   it("applies the variant and merges a custom className", () => {
@@ -26,11 +26,11 @@ describe("Button", () => {
       </Button>,
     );
 
-    expect(screen.getByRole("button", { name: "Cancel" })).toHaveClass(
-      "btn",
-      "btn-secondary",
-      "wide",
-    );
+    const button = screen.getByRole("button", { name: "Cancel" });
+    expect(button).toHaveAttribute("data-variant", "secondary");
+    expect(button).toHaveClass("wide");
+    // The CSS Module class is kept alongside the custom one.
+    expect(button.classList).toHaveLength(2);
   });
 
   it("calls onClick when clicked", async () => {
