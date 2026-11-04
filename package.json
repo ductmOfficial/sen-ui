@@ -13,6 +13,7 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:coverage": "turbo run test:coverage",
+    "release": "turbo run build --filter=@ductmofficial/sen-ui && changeset publish",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "db:up": "docker compose up --detach --wait",
