@@ -5,5 +5,5 @@
     "types": ["vite/client"]
   },
   // TypeScript skips dot-folders in wildcards unless they are named explicitly.
-  "include": ["src", ".storybook/*.ts"]
+  "include": ["src", ".storybook/*.ts", "vitest.config.ts"]
 }
