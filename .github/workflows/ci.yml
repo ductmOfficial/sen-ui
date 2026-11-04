@@ -63,5 +63,5 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
-      - name: Lint, typecheck, test, build
-        run: pnpm turbo run lint typecheck test build
+      - name: Lint, typecheck, test, build, check package
+        run: pnpm turbo run lint typecheck test build lint:package
