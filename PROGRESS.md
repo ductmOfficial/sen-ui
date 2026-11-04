@@ -139,10 +139,11 @@ Turn the template into **Sen UI**, an accessible React component library publish
 | 7   | Changesets for versions and changelogs                          | `ci/storybook-pages` | ⏳ committed, no PR |
 | 8   | Release workflow: version PR and npm trusted publishing         | `ci/storybook-pages` | ⏳ committed, no PR |
 | 9   | README and progress log for Sen UI                              | `ci/storybook-pages` | ⏳ committed, no PR |
-| 10  | First npm release (`0.1.0`)                                     | —                    | ⬜                  |
-| 11  | More components                                                 | —                    | ⬜                  |
+| 10  | `TextField` component                                           | `feat/text-field`    | ⏳ committed, no PR |
+| 11  | First npm release (`0.1.0`)                                     | —                    | ⬜                  |
+| 12  | More components                                                 | —                    | ⬜                  |
 
-`ci/storybook-pages` is stacked on `chore/sen-ui-setup`, so its PR merges second.
+The branches are stacked: `ci/storybook-pages` on `chore/sen-ui-setup`, and `feat/text-field` on `ci/storybook-pages`. Their PRs merge in that order.
 
 ### Details
 
@@ -210,9 +211,18 @@ Turn the template into **Sen UI**, an accessible React component library publish
 - [x] Root README rewritten for Sen UI (commit `docs: rewrite README for Sen UI`)
 - [x] Phase 1 added to this progress log (commit `docs: add Phase 1 to the progress log`)
 
-#### Step 10 — First npm release ⬜
+#### Step 10 — TextField ✅
 
-- [ ] Push both branches, open the PRs, CI green, merge in order
+- [x] `TextField`: required visible `label`, optional `description` and `error` linked through `aria-describedby`; an `error` sets `aria-invalid` and `data-invalid`
+- [x] `id` from `useId` unless passed; `className` on the wrapper, every other prop (including `ref`) on the `<input>`
+- [x] 7 unit tests, library coverage still 100%; 4 stories pass the axe check in Chromium
+- [x] Changeset `minor`: a trial `changeset version` folds it into the unreleased `0.1.0`
+- [x] Package README: usage example and a components table linking to Storybook
+- [x] Commits `feat(sen-ui): add TextField component`, `chore: add changeset for TextField`, `docs(sen-ui): document TextField in the package README` and `docs: add TextField to the progress log`
+
+#### Step 11 — First npm release ⬜
+
+- [ ] Push the three branches, open the PRs, CI green, merge in order
 - [ ] Try `npm trust github @ductmofficial/sen-ui --file release.yml --repo ductmOfficial/sen-ui` (npm may refuse while the package does not exist)
 - [ ] Close and reopen the version PR so CI runs, then merge it
 - [ ] If the workflow could not publish: publish `0.1.0` by hand from `main` (`npm login`, `pnpm release`, `git push --follow-tags`), then add the trusted publisher on npmjs.com
