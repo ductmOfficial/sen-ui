@@ -18,12 +18,28 @@ Import the stylesheet once, at the root of your app, then use the components:
 
 ```tsx
 import "@ductmofficial/sen-ui/styles.css";
-import { Button } from "@ductmofficial/sen-ui";
+import { Button, TextField } from "@ductmofficial/sen-ui";
 
-export function App() {
-  return <Button variant="secondary">Cancel</Button>;
+export function SignupForm() {
+  return (
+    <form>
+      <TextField label="Email" type="email" description="We never share your email." required />
+      <Button type="submit">Sign up</Button>
+    </form>
+  );
 }
 ```
+
+## Components
+
+Live examples for every component are in [Storybook](https://ductmofficial.github.io/sen-ui/).
+
+| Component   | What it is                                                                                                                                                                                                                                 |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Button`    | Native `<button>` with `primary` and `secondary` variants. Defaults to `type="button"`, so it never submits a form by accident.                                                                                                            |
+| `TextField` | Text input with a required visible `label`, plus optional `description` and `error`, linked through `aria-describedby`. An `error` sets `aria-invalid`. `className` styles the wrapper; other props, including `ref`, go to the `<input>`. |
+
+Show errors after the user submits, and move focus to the first invalid field: `TextField` does not announce an error the moment it appears.
 
 ## Styling
 
