@@ -38,6 +38,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Story tests in apps/docs run in headless Chromium. Not cached: Playwright's docs note that
+      # restoring the cache takes about as long as downloading, and system deps must be installed anyway.
+      - name: Install Playwright Chromium
+        run: pnpm --filter docs exec playwright install --with-deps chromium
+
       - name: Lint commit messages
         if: github.event_name == 'pull_request'
         run: >-
