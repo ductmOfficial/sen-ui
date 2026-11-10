@@ -1,0 +1,57 @@
+/* Reads the design tokens; React Aria exposes enter and exit states as data-* attributes. */
+@layer sen {
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: var(--sen-space-4);
+    background-color: rgb(0 0 0 / 0.5);
+  }
+
+  .overlay[data-entering] {
+    animation: fade var(--sen-duration-fast) var(--sen-easing-standard);
+  }
+
+  .overlay[data-exiting] {
+    animation: fade var(--sen-duration-fast) var(--sen-easing-standard) reverse;
+  }
+
+  .modal {
+    inline-size: min(32rem, 100%);
+    max-block-size: 100%;
+    overflow: auto;
+    border: 1px solid var(--sen-color-border-subtle);
+    border-radius: var(--sen-radius-lg);
+    background-color: var(--sen-color-bg);
+    box-shadow: 0 1rem 3rem rgb(0 0 0 / 0.25);
+  }
+
+  .dialog {
+    padding: var(--sen-space-6);
+    color: var(--sen-color-fg);
+    outline: none;
+  }
+
+  .title {
+    margin: 0 0 var(--sen-space-2);
+    font-size: var(--sen-font-size-lg);
+    font-weight: var(--sen-font-weight-semibold);
+    line-height: var(--sen-line-height-tight);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--sen-space-2);
+    margin-block-start: var(--sen-space-6);
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+}
