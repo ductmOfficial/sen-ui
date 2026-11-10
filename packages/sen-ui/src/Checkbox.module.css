@@ -1,0 +1,83 @@
+/* Reads the design tokens; React Aria exposes state as data-* attributes on the label. */
+@layer sen {
+  .field {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--sen-space-1);
+  }
+
+  .description {
+    /* Lines up with the label, past the box and the gap. */
+    padding-inline-start: calc(1.125rem + var(--sen-space-2));
+    color: var(--sen-color-fg-muted);
+    font-size: var(--sen-font-size-sm);
+  }
+
+  .checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sen-space-2);
+    color: var(--sen-color-fg);
+    line-height: var(--sen-line-height-tight);
+    cursor: pointer;
+  }
+
+  .box {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    border: 1px solid var(--sen-color-border);
+    border-radius: var(--sen-radius-sm);
+    background-color: var(--sen-color-bg);
+    transition:
+      background-color var(--sen-duration-fast) var(--sen-easing-standard),
+      border-color var(--sen-duration-fast) var(--sen-easing-standard);
+  }
+
+  .mark {
+    inline-size: 100%;
+    block-size: 100%;
+    fill: none;
+    stroke: var(--sen-color-on-accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mark rect {
+    fill: var(--sen-color-on-accent);
+    stroke: none;
+  }
+
+  .checkbox[data-selected] .box,
+  .checkbox[data-indeterminate] .box {
+    border-color: var(--sen-color-accent);
+    background-color: var(--sen-color-accent);
+  }
+
+  .checkbox[data-hovered]:not([data-disabled]) .box {
+    border-color: var(--sen-color-fg);
+  }
+
+  .checkbox[data-hovered][data-selected]:not([data-disabled]) .box,
+  .checkbox[data-hovered][data-indeterminate]:not([data-disabled]) .box {
+    border-color: var(--sen-color-accent-hover);
+    background-color: var(--sen-color-accent-hover);
+  }
+
+  .checkbox[data-focus-visible] .box {
+    outline: var(--sen-focus-ring-width) solid var(--sen-focus-ring-color);
+    outline-offset: var(--sen-focus-ring-offset);
+  }
+
+  .checkbox[data-invalid] .box {
+    border-color: var(--sen-color-danger);
+  }
+
+  .checkbox[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
