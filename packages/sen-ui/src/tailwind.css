@@ -1,0 +1,38 @@
+/*
+ * Tailwind CSS v4 theme for the Sen UI tokens. Import it after Tailwind and the tokens:
+ *
+ *   @import "tailwindcss";
+ *   @import "@ductmofficial/sen-ui/tokens.css";   (or styles.css, which includes them)
+ *   @import "@ductmofficial/sen-ui/tailwind.css";
+ *
+ * Adds utilities such as bg-sen-bg, text-sen-fg, border-sen-border, ring-sen-focus-ring,
+ * rounded-sen-md, font-sen and text-sen-sm. `inline` makes them reference the tokens directly,
+ * so they follow the light and dark themes at runtime.
+ */
+@theme inline {
+  --color-sen-bg: var(--sen-color-bg);
+  --color-sen-surface: var(--sen-color-surface);
+  --color-sen-surface-hover: var(--sen-color-surface-hover);
+  --color-sen-fg: var(--sen-color-fg);
+  --color-sen-fg-muted: var(--sen-color-fg-muted);
+  --color-sen-border: var(--sen-color-border);
+  --color-sen-border-subtle: var(--sen-color-border-subtle);
+  --color-sen-accent: var(--sen-color-accent);
+  --color-sen-accent-hover: var(--sen-color-accent-hover);
+  --color-sen-accent-text: var(--sen-color-accent-text);
+  --color-sen-on-accent: var(--sen-color-on-accent);
+  --color-sen-danger: var(--sen-color-danger);
+  --color-sen-focus-ring: var(--sen-focus-ring-color);
+
+  --font-sen: var(--sen-font-family);
+  --font-sen-mono: var(--sen-font-family-mono);
+
+  --text-sen-sm: var(--sen-font-size-sm);
+  --text-sen-md: var(--sen-font-size-md);
+  --text-sen-lg: var(--sen-font-size-lg);
+
+  --radius-sen-sm: var(--sen-radius-sm);
+  --radius-sen-md: var(--sen-radius-md);
+  --radius-sen-lg: var(--sen-radius-lg);
+  --radius-sen-full: var(--sen-radius-full);
+}
