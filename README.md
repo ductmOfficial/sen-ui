@@ -20,17 +20,17 @@ Created from the [`ductran-starter`](https://github.com/ductmOfficial/ductran-st
 
 ## What's inside
 
-| Area        | Tools                                                                                                 |
-| ----------- | ----------------------------------------------------------------------------------------------------- |
-| Monorepo    | [pnpm](https://pnpm.io) workspaces, [Turborepo](https://turborepo.com)                                |
-| Language    | TypeScript 6 (strict), Node.js 24 LTS                                                                 |
-| Library     | React 19, design tokens with light and dark themes, CSS Modules in `@layer sen`, Vite 8 library build |
-| Docs        | Storybook 10 with the a11y and Vitest addons                                                          |
-| Testing     | Vitest 5: jsdom and Testing Library for components, headless Chromium for stories                     |
-| Lint/format | ESLint 10 (flat config, type-aware `typescript-eslint`, `@eslint-react`), Prettier 3                  |
-| Release     | Changesets, npm trusted publishing (OIDC) with provenance, `publint`                                  |
-| CI/CD       | GitHub Actions: verify every pull request, deploy Storybook to Pages, release to npm                  |
-| Conventions | Conventional Commits (commitlint + husky), protected `main`, PR template, issue forms                 |
+| Area        | Tools                                                                                                                        |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Monorepo    | [pnpm](https://pnpm.io) workspaces, [Turborepo](https://turborepo.com)                                                       |
+| Language    | TypeScript 6 (strict), Node.js 24 LTS                                                                                        |
+| Library     | React 19, React Aria Components, design tokens with light and dark themes, CSS Modules in `@layer sen`, Vite 8 library build |
+| Docs        | Storybook 10 with the a11y and Vitest addons                                                                                 |
+| Testing     | Vitest 5: jsdom and Testing Library for components, headless Chromium for stories                                            |
+| Lint/format | ESLint 10 (flat config, type-aware `typescript-eslint`, `@eslint-react`), Prettier 3                                         |
+| Release     | Changesets, npm trusted publishing (OIDC) with provenance, `publint`                                                         |
+| CI/CD       | GitHub Actions: verify every pull request, deploy Storybook to Pages, release to npm                                         |
+| Conventions | Conventional Commits (commitlint + husky), protected `main`, PR template, issue forms                                        |
 
 ## Requirements
 
@@ -104,7 +104,7 @@ Run a script in one package with a filter, e.g. `pnpm --filter @ductmofficial/se
 
 **Task pipeline.** Each package defines its own `build`, `lint`, `typecheck` and `test` scripts. Root scripts call `turbo run <task>`, which runs them in dependency order (`^build` means "build my dependencies first"), in parallel where possible, and caches results by content hash.
 
-**Library build.** Vite builds `src/` into ES modules, one file per source module so consumers can tree-shake, plus a single `styles.css`. `tsc` then adds one `.d.ts` per module. The `exports` map points at `dist/`, and `publint` checks the result in CI.
+**Library build.** Interactive components wrap React Aria Components, which handle keyboard interaction, focus and ARIA; Sen UI adds the styles. Vite builds `src/` into ES modules, one file per source module so consumers can tree-shake, plus a single `styles.css`. `tsc` then adds one `.d.ts` per module. React and `react-aria-components` stay external. The `exports` map points at `dist/`, and `publint` checks the result in CI.
 
 **Design tokens.** `packages/sen-ui/src/tokens.css` defines the `--sen-*` tokens for both themes. It is bundled into `styles.css` and also shipped alone, together with a Tailwind CSS v4 theme (`tailwind.css`). Unit tests check that both themes define the same colors and meet WCAG contrast, and that component CSS only falls back to tokens that exist.
 

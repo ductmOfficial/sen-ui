@@ -10,7 +10,7 @@ Accessible React components for React 19.
 npm install @ductmofficial/sen-ui
 ```
 
-`react` and `react-dom` 19 are peer dependencies.
+`react` and `react-dom` 19 are peer dependencies. Interactive components are built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/), which is installed with the package.
 
 ## Usage
 
@@ -34,10 +34,13 @@ export function SignupForm() {
 
 Live examples for every component are in [Storybook](https://ductmofficial.github.io/sen-ui/).
 
-| Component   | What it is                                                                                                                                                                                                                                 |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `Button`    | Native `<button>` with `primary` and `secondary` variants. Defaults to `type="button"`, so it never submits a form by accident.                                                                                                            |
-| `TextField` | Text input with a required visible `label`, plus optional `description` and `error`, linked through `aria-describedby`. An `error` sets `aria-invalid`. `className` styles the wrapper; other props, including `ref`, go to the `<input>`. |
+| Component                            | What it is                                                                                                                                                                                                                                 |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Button`                             | Native `<button>` with `primary` and `secondary` variants. Defaults to `type="button"`, so it never submits a form by accident.                                                                                                            |
+| `TextField`                          | Text input with a required visible `label`, plus optional `description` and `error`, linked through `aria-describedby`. An `error` sets `aria-invalid`. `className` styles the wrapper; other props, including `ref`, go to the `<input>`. |
+| `Checkbox`                           | Checkbox with a visible label and optional `description`. Supports `isIndeterminate`, `isInvalid`, and `isSelected` / `defaultSelected` with `onChange(isSelected)`.                                                                       |
+| `Tooltip`                            | Short, non-interactive description for one focusable trigger: `<Tooltip content="Delete"><Button aria-label="Delete">×</Button></Tooltip>`. Opens on hover after `delay` and at once on keyboard focus; closes on Escape.                  |
+| `Tabs`, `TabList`, `Tab`, `TabPanel` | Tabs with arrow-key navigation, a single tab stop, automatic or manual activation, and horizontal or vertical orientation. A `Tab` and its `TabPanel` share an `id`.                                                                       |
 
 Show errors after the user submits, and move focus to the first invalid field: `TextField` does not announce an error the moment it appears.
 
