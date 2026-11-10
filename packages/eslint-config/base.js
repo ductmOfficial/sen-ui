@@ -5,7 +5,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-  globalIgnores(["**/dist/", "**/coverage/", "**/.turbo/"]),
+  globalIgnores(["**/dist/", "**/coverage/", "**/.turbo/", "**/storybook-static/"]),
 
   js.configs.recommended,
   tseslint.configs.strictTypeChecked,
