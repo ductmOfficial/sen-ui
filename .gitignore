@@ -4,6 +4,7 @@ node_modules/
 # Build output & caches
 dist/
 coverage/
+storybook-static/
 .turbo/
 *.tsbuildinfo
 

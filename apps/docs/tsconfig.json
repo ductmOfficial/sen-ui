@@ -1,0 +1,9 @@
+{
+  "extends": "@repo/typescript-config/react-library.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["vite/client"]
+  },
+  // TypeScript skips dot-folders in wildcards unless they are named explicitly.
+  "include": ["src", ".storybook/*.ts"]
+}
