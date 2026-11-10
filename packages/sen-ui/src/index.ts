@@ -16,3 +16,11 @@ export { Select, SelectItem } from "./Select.js";
 export type { SelectItemProps, SelectProps } from "./Select.js";
 export { ComboBox, ComboBoxItem } from "./ComboBox.js";
 export type { ComboBoxItemProps, ComboBoxProps } from "./ComboBox.js";
+export { DataTable } from "./DataTable.js";
+export type {
+  DataTableColumn,
+  DataTableProps,
+  SortDescriptor,
+  SortDirection,
+  SortValue,
+} from "./DataTable.js";
