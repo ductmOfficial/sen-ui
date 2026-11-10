@@ -14,3 +14,5 @@ export { Dialog, DialogActions, DialogTrigger } from "./Dialog.js";
 export type { DialogActionsProps, DialogProps, DialogTriggerProps } from "./Dialog.js";
 export { Select, SelectItem } from "./Select.js";
 export type { SelectItemProps, SelectProps } from "./Select.js";
+export { ComboBox, ComboBoxItem } from "./ComboBox.js";
+export type { ComboBoxItemProps, ComboBoxProps } from "./ComboBox.js";

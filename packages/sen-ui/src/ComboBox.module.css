@@ -1,0 +1,42 @@
+/* ComboBox's input and button; the shared field styles live in Field.module.css. */
+@layer sen {
+  .group[data-focus-within] {
+    outline: var(--sen-focus-ring-width) solid var(--sen-focus-ring-color);
+    outline-offset: var(--sen-focus-ring-offset);
+  }
+
+  .input {
+    flex: 1;
+    min-inline-size: 0;
+    padding-block: var(--sen-space-2);
+    padding-inline: var(--sen-space-3);
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    outline: none;
+  }
+
+  .input::placeholder {
+    color: var(--sen-color-fg-muted);
+    opacity: 1;
+  }
+
+  .button {
+    display: grid;
+    place-items: center;
+    align-self: stretch;
+    padding-inline: var(--sen-space-2);
+    border: none;
+    border-start-end-radius: var(--sen-radius-md);
+    border-end-end-radius: var(--sen-radius-md);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .button[data-hovered] {
+    background-color: var(--sen-color-surface-hover);
+  }
+}
