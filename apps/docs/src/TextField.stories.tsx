@@ -44,3 +44,9 @@ export const WithError: Story = {
 export const Disabled: Story = {
   args: { disabled: true, defaultValue: "you@example.com" },
 };
+
+// Runs the axe checks against the dark theme too.
+export const WithErrorDark: Story = {
+  ...WithError,
+  globals: { theme: "dark" },
+};
