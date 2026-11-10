@@ -1,5 +1,13 @@
 # @ductmofficial/sen-ui
 
+## 0.2.0
+
+### Minor Changes
+
+- be68f07: `Button` and `TextField` now read the design tokens, so they follow the light and dark themes. The `--sen-button-*` and `--sen-text-field-*` properties still override single values. Visible change: the secondary `Button` now has the `surface` background instead of white.
+- 3fa0300: Add design tokens: `--sen-*` custom properties for color, typography, spacing, radius, focus ring and motion, with a light theme and a dark theme. Dark follows `prefers-color-scheme` unless the page sets `data-theme="light"`; `data-theme="dark"` or `"light"` on any element forces a theme for its subtree. Tokens are included in `styles.css` and also shipped alone as `@ductmofficial/sen-ui/tokens.css`. They live in the `sen` layer, so an unlayered `:root { --sen-…: … }` in your app overrides them.
+- 7b1de39: Add `@ductmofficial/sen-ui/tailwind.css`, a Tailwind CSS v4 theme that maps the design tokens to utilities such as `bg-sen-bg`, `text-sen-fg`, `border-sen-border`, `rounded-sen-md` and `font-sen`. Import it after `tailwindcss` and the tokens. The utilities reference the tokens directly, so they follow the light and dark themes.
+
 ## 0.1.0
 
 ### Minor Changes
