@@ -1,46 +1,47 @@
-/* Placeholder values until tokens.css lands; each --sen-button-* property can be overridden. */
+/* Reads the design tokens; each --sen-button-* property can override one value. */
 @layer sen {
   .button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5em;
-    min-block-size: 2.5rem;
-    padding-block: 0.5rem;
-    padding-inline: 1rem;
+    gap: var(--sen-space-2);
+    min-block-size: var(--sen-control-height-md);
+    padding-block: var(--sen-space-2);
+    padding-inline: var(--sen-space-4);
     border: 1px solid var(--_border-color);
-    border-radius: var(--sen-button-radius, 0.375rem);
+    border-radius: var(--sen-button-radius, var(--sen-radius-md));
     background-color: var(--_background);
     color: var(--_color);
     font: inherit;
-    font-weight: 600;
-    line-height: 1.25;
+    font-weight: var(--sen-font-weight-semibold);
+    line-height: var(--sen-line-height-tight);
     cursor: pointer;
+    transition: background-color var(--sen-duration-fast) var(--sen-easing-standard);
   }
 
   .button[data-variant="primary"] {
-    --_background: var(--sen-button-primary-background, #1d4ed8);
+    --_background: var(--sen-button-primary-background, var(--sen-color-accent));
     --_border-color: var(--_background);
-    --_color: var(--sen-button-primary-color, #fff);
+    --_color: var(--sen-button-primary-color, var(--sen-color-on-accent));
   }
 
   .button[data-variant="primary"]:hover:not(:disabled) {
-    --_background: var(--sen-button-primary-background-hover, #1e40af);
+    --_background: var(--sen-button-primary-background-hover, var(--sen-color-accent-hover));
   }
 
   .button[data-variant="secondary"] {
-    --_background: var(--sen-button-secondary-background, #fff);
-    --_border-color: var(--sen-button-secondary-border-color, #6b7280);
-    --_color: var(--sen-button-secondary-color, #111827);
+    --_background: var(--sen-button-secondary-background, var(--sen-color-surface));
+    --_border-color: var(--sen-button-secondary-border-color, var(--sen-color-border));
+    --_color: var(--sen-button-secondary-color, var(--sen-color-fg));
   }
 
   .button[data-variant="secondary"]:hover:not(:disabled) {
-    --_background: var(--sen-button-secondary-background-hover, #f3f4f6);
+    --_background: var(--sen-button-secondary-background-hover, var(--sen-color-surface-hover));
   }
 
   .button:focus-visible {
-    outline: 2px solid var(--sen-focus-ring-color, #1d4ed8);
-    outline-offset: 2px;
+    outline: var(--sen-focus-ring-width) solid var(--sen-focus-ring-color);
+    outline-offset: var(--sen-focus-ring-offset);
   }
 
   .button:disabled {
