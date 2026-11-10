@@ -70,10 +70,14 @@ jobs:
           echo "npm OIDC token exchange: HTTP $status"
           jq 'del(.token)' exchange.json 2>/dev/null || true
           rm -f exchange.json
-          if [ "$status" != 200 ]; then
-            echo "::error::npm did not accept this workflow as a trusted publisher of $name (HTTP $status)."
-            exit 1
-          fi
+          # The exchange answers 201 Created on success.
+          case "$status" in
+            2??) ;;
+            *)
+              echo "::error::npm did not accept this workflow as a trusted publisher of $name (HTTP $status)."
+              exit 1
+              ;;
+          esac
 
       - name: Create version pull request or publish
         uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
