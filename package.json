@@ -15,6 +15,7 @@
     "test:coverage": "turbo run test:coverage",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "release": "turbo run build --filter=@ductmofficial/sen-ui && changeset publish",
     "prepare": "husky"
   },
   "devDependencies": {
