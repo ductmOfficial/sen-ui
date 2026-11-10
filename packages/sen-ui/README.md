@@ -44,8 +44,68 @@ Live examples for every component are in [Storybook](https://ductmofficial.githu
 | `Dialog`, `DialogTrigger`, `DialogActions` | Modal dialog named by its `title`. Traps focus, returns it to the trigger on close, closes on Escape and outside click. `children` can be a function that receives `{ close }`; `role="alertdialog"` for confirmations.                    |
 | `Select`, `SelectItem`                     | Labelled button that opens a list of options. Keyboard and type-ahead, disabled options, `description`, `error`, and a hidden native select for forms.                                                                                     |
 | `ComboBox`, `ComboBoxItem`                 | Labelled input that filters options as you type, with an empty state (`emptyText`). Local filtering with `defaultItems`, or server data with `items` and `onInputChange`.                                                                  |
+| `DataTable`                                | Virtualized data grid (ARIA grid pattern) for large lists: sorting, a global filter and column filters, controlled or app-driven (`manual`) data, and multiple selection with checkboxes. See below.                                       |
 
 Show errors after the user submits, and move focus to the first invalid field: `TextField` does not announce an error the moment it appears.
+
+### DataTable
+
+```tsx
+import { DataTable, TextField, type DataTableColumn } from "@ductmofficial/sen-ui";
+
+const columns: DataTableColumn<Order>[] = [
+  {
+    id: "id",
+    header: "Order",
+    cell: (o) => o.id,
+    sortValue: (o) => o.id,
+    searchValue: (o) => o.id,
+  },
+  {
+    id: "site",
+    header: "Site",
+    cell: (o) => o.site,
+    sortValue: (o) => o.site,
+    filter: (o, v) => o.site === v,
+  },
+  {
+    id: "lines",
+    header: "Lines",
+    cell: (o) => o.lines,
+    sortValue: (o) => o.lines,
+    align: "end",
+    width: "6rem",
+  },
+];
+
+function Orders({ orders }: { orders: Order[] }) {
+  const [query, setQuery] = useState("");
+  return (
+    <>
+      <TextField
+        label="Search orders"
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <DataTable
+        aria-label="Orders"
+        columns={columns}
+        rows={orders}
+        getRowId={(o) => o.id}
+        globalFilter={query}
+        selectionMode="multiple"
+        onSelectionChange={(ids) => console.log(ids)}
+      />
+    </>
+  );
+}
+```
+
+- **Columns.** `cell` renders a cell. `sortValue` makes the column sortable (strings compare naturally, numbers and dates by value, empty values last). `searchValue` puts the column in the global filter, which ignores case and accents. `filter` applies a value from `columnFilters`. `width` takes a CSS grid track size and `align: "end"` suits numbers.
+- **Keyboard.** One tab stop. Arrow keys move between cells; Home and End go to the ends of a row; Ctrl+Home and Ctrl+End to the first and last cell; PageUp and PageDown move by a screen. Enter or Space on a sortable header cycles ascending, descending, unsorted. With selection, Space selects the focused row and Ctrl+A (Cmd+A) selects every row.
+- **Large lists.** Only the visible rows are rendered; `aria-rowcount` and `aria-rowindex` give assistive technology the full size. Set `height` (pixels) for the scrolling area and `rowHeight` for the fixed row height.
+- **Your data, your UI.** Filters are props, so the app owns the inputs. Pass `manual` when the server sorts and filters: rows are shown as given and `onSortChange` reports what to load.
 
 ## Styling
 
