@@ -12,7 +12,7 @@ Sen UI is an accessible React component library published to npm as `@ductmoffic
 | --- | ------------------ | ------------------------------------------------------------------------------------------------- | ---------- | ------ |
 | 0   | Foundation         | Library build, Storybook, a11y story tests, Pages, Changesets, npm release, `Button`, `TextField` | `0.1.0`    | ✅     |
 | 1   | Tokens and theming | `tokens.css`, dark mode, Tailwind theme; `Button` and `TextField` on tokens                       | `0.2.0`    | ✅     |
-| 2   | Simple components  | React Aria Components; `Checkbox`, `Tooltip`, `Tabs`                                              | `0.3.0`    | ⬜     |
+| 2   | Simple components  | React Aria Components; `Checkbox`, `Tooltip`, `Tabs`                                              | `0.3.0`    | ✅     |
 | 3   | Overlay components | `Dialog`, `Select`/`Combobox`, `Toast`                                                            | `0.4.0`    | ⬜     |
 | 4   | DataTable          | Typed columns, sort, filter, virtualization, ARIA grid keyboard navigation                        | `0.5.0`    | ⬜     |
 | 5   | Polish             | Screen reader pass, design decisions in the README, bundle size                                   | next minor | ⬜     |
@@ -47,6 +47,17 @@ Each step is a pull request with a green `Verify` check, merged with rebase. The
 
 Released as `0.2.0` through the version pull request, the first publish through npm trusted publishing.
 
+## Phase 2 — Simple components
+
+| #   | Step                                 | Branch          |
+| --- | ------------------------------------ | --------------- |
+| 1   | `Checkbox` on React Aria Components  | `feat/checkbox` |
+| 2   | `Tooltip`                            | `feat/tooltip`  |
+| 3   | `Tabs`, `TabList`, `Tab`, `TabPanel` | `feat/tabs`     |
+| 4   | README and progress log              | `docs/phase-2`  |
+
+Released as `0.3.0`.
+
 ## Decisions
 
 | Decision                                                              | Reason                                                                                                                        |
@@ -72,6 +83,11 @@ Released as `0.2.0` through the version pull request, the first publish through 
 | Contrast checked twice: unit test on the tokens, axe on dark stories  | The unit test catches a bad token value; axe catches a bad pairing in a real component                                        |
 | Tailwind integration as a v4 `@theme inline` file, not a JS preset    | Tailwind v4 is configured in CSS; `inline` keeps utilities pointing at the tokens, so they follow the active theme            |
 | Component override properties fall back to a token                    | Keeps the `--sen-button-*` and `--sen-text-field-*` hooks while the tokens drive the defaults                                 |
+| Interactive components wrap React Aria Components                     | Keyboard interaction, focus management and ARIA come from a well-tested library; Sen UI owns the styles and the API           |
+| `react-aria-components` is a dependency, external in the build        | Apps install one copy and dedupe it with their own React Aria use; the library bundle stays small                             |
+| `Checkbox` uses `CheckboxField` and `CheckboxButton`                  | React Aria 1.22 deprecates `Checkbox` in favor of the pair, which also gives the description its slot                         |
+| `Tooltip` takes one trigger and wraps it in React Aria's `Focusable`  | Works with Sen UI's native `Button` and any component that forwards `ref` and DOM props                                       |
+| Tooltip hover tested in the browser, not in jsdom                     | React Aria only opens on hover after a pointer interaction; jsdom cannot reproduce that reliably                              |
 | No Co-Authored-By trailer in commits                                  | Maintainer's preference                                                                                                       |
 
 ## Follow-ups
@@ -89,3 +105,7 @@ Released as `0.2.0` through the version pull request, the first publish through 
 - **2026-11-04:** `changesets/action` v2 renamed its inputs (`publish-script`, `commit-message`, `pr-title`), and its default "Version Packages" title would fail commitlint.
 - **2026-11-04:** `npm trust` failed with 403 while the npm account had no 2FA, then with 404 because npm only trusts packages that already exist. `0.1.0` was published by hand from an interactive shell (`ERR_PNPM_OTP_NON_INTERACTIVE` otherwise).
 - **2026-11-04:** right after publishing, the registry briefly showed only `0.0.0-stage` with `latest` pointing at it; staged publishing creates that placeholder, and `latest` moved to `0.1.0` once the publish completed.
+- **2026-11-10:** the first `0.2.0` publish failed with `404 Not Found`. The npm trusted publisher had been set up for an earlier repository with the same name; npm rejected the OIDC token exchange (`package not found`) until the trusted publisher was removed and added again. The Release job now runs the exchange itself before publishing and prints the result.
+- **2026-11-10:** the npm token exchange answers `201 Created` on success; the pre-publish check first accepted only `200`.
+- **2026-11-10:** the version pull request was updated by the Release workflow while its CI was running. Merge it last, after every pull request of the release is in.
+- **2026-11-10:** React Aria Components 1.22 marks `Checkbox` as deprecated (`@typescript-eslint/no-deprecated` failed lint); `Checkbox` is built on `CheckboxField` and `CheckboxButton` instead.
