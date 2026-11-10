@@ -11,6 +11,9 @@
     "lint": {
       "dependsOn": ["^build"]
     },
+    "lint:package": {
+      "dependsOn": ["build"]
+    },
     "test": {
       "dependsOn": ["^build"],
       "outputs": []
