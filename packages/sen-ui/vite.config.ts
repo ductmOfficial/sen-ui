@@ -41,7 +41,7 @@ function copyStylesheets(files: string[]): Plugin {
 }
 
 export default defineConfig({
-  plugins: [emitTypesInWatchMode(), copyStylesheets(["tokens.css"])],
+  plugins: [emitTypesInWatchMode(), copyStylesheets(["tokens.css", "tailwind.css"])],
   css: {
     modules: {
       // Readable, stable class names in the shipped CSS, e.g. `sen-button-a1b2c`.
