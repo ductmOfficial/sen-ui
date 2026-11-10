@@ -60,7 +60,8 @@ export default defineConfig({
     minify: false,
     sourcemap: true,
     rolldownOptions: {
-      external: [/^react(-dom)?($|\/)/],
+      // React and the runtime dependencies stay external; the app installs and dedupes them.
+      external: [/^react(-dom)?($|\/)/, /^react-aria-components($|\/)/],
       output: {
         // One output file per source module, so consumers' bundlers can drop unused components.
         preserveModules: true,
