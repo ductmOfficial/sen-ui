@@ -1,183 +1,133 @@
-# ductran-starter
+# Sen UI
 
-[![CI](https://github.com/ductmOfficial/ductran-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/ductmOfficial/ductran-starter/actions/workflows/ci.yml)
+[![CI](https://github.com/ductmOfficial/sen-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/ductmOfficial/sen-ui/actions/workflows/ci.yml)
 
-A TypeScript monorepo template for my portfolio projects. Every project starts from the same foundation: strict TypeScript, shared lint and format configs, component tests, CI on every pull request, a local PostgreSQL, and enforced commit conventions.
+Accessible React components for React 19, published as [`@ductmofficial/sen-ui`](packages/sen-ui). Every component ships with tests, a Storybook story, and an automated accessibility check that blocks the pull request when it fails.
+
+Storybook: <https://ductmofficial.github.io/sen-ui/>
+
+Created from the [`ductran-starter`](https://github.com/ductmOfficial/ductran-starter) template.
+
+## Packages and apps
+
+| Path                         | Name                      | Published | What it is                                                     |
+| ---------------------------- | ------------------------- | --------- | -------------------------------------------------------------- |
+| `packages/sen-ui`            | `@ductmofficial/sen-ui`   | npm       | The component library ([README](packages/sen-ui/README.md))    |
+| `apps/docs`                  | `docs`                    | Pages     | Storybook for the library, also used for a11y and render tests |
+| `packages/eslint-config`     | `@repo/eslint-config`     | no        | Shared ESLint flat configs: `base` and `react`                 |
+| `packages/prettier-config`   | `@repo/prettier-config`   | no        | Shared Prettier config                                         |
+| `packages/typescript-config` | `@repo/typescript-config` | no        | Shared tsconfig presets: `base`, `node`, `react-library`       |
 
 ## What's inside
 
-| Area        | Tools                                                                                |
-| ----------- | ------------------------------------------------------------------------------------ |
-| Monorepo    | [pnpm](https://pnpm.io) workspaces, [Turborepo](https://turborepo.com)               |
-| Language    | TypeScript 6 (strict), Node.js 24 LTS                                                |
-| Lint/format | ESLint 10 (flat config, type-aware `typescript-eslint`, `@eslint-react`), Prettier 3 |
-| Testing     | Vitest 5, jsdom, Testing Library, jest-dom, user-event, v8 coverage                  |
-| UI sample   | React 19 component library (`@repo/ui`), Vite library mode + `tsc` declarations      |
-| Database    | PostgreSQL 18 via Docker Compose                                                     |
-| CI          | GitHub Actions, protected `main` branch (ruleset), Dependabot                        |
-| Conventions | Conventional Commits (commitlint + husky), PR template, issue forms                  |
+| Area        | Tools                                                                                 |
+| ----------- | ------------------------------------------------------------------------------------- |
+| Monorepo    | [pnpm](https://pnpm.io) workspaces, [Turborepo](https://turborepo.com)                |
+| Language    | TypeScript 6 (strict), Node.js 24 LTS                                                 |
+| Library     | React 19, CSS Modules in `@layer sen`, Vite 8 library build, `.d.ts` from `tsc`       |
+| Docs        | Storybook 10 with the a11y and Vitest addons                                          |
+| Testing     | Vitest 5: jsdom and Testing Library for components, headless Chromium for stories     |
+| Lint/format | ESLint 10 (flat config, type-aware `typescript-eslint`, `@eslint-react`), Prettier 3  |
+| Release     | Changesets, npm trusted publishing (OIDC) with provenance, `publint`                  |
+| CI/CD       | GitHub Actions: verify every pull request, deploy Storybook to Pages, release to npm  |
+| Conventions | Conventional Commits (commitlint + husky), protected `main`, PR template, issue forms |
 
 ## Requirements
 
 - Node.js 24 (`.nvmrc`; run `nvm use` or `fnm use`)
 - pnpm 12 (`npm install -g pnpm`; the exact version is pinned in `packageManager`)
-- Docker with Compose v2 (only for the database)
 
 `pnpm install` fails on a different Node major because `engineStrict` is enabled.
 
 ## Getting started
 
 ```bash
-git clone https://github.com/ductmOfficial/ductran-starter.git
-cd ductran-starter
-pnpm install          # also installs the git hooks
+git clone https://github.com/ductmOfficial/sen-ui.git
+cd sen-ui
+pnpm install                                           # also installs the git hooks
+pnpm --filter docs exec playwright install chromium    # browser for the story tests
 
-pnpm build            # build all packages
-pnpm test             # run all tests
+pnpm dev      # Storybook at http://localhost:6006, rebuilt when the library changes
+pnpm test     # component tests and story tests
+pnpm build    # build the library and the static Storybook
 ```
-
-Local database (optional):
-
-```bash
-cp .env.example .env  # optional: compose.yaml has the same defaults
-pnpm db:up            # start PostgreSQL and wait until it is healthy
-pnpm db:psql          # open psql inside the container
-```
-
-Connection string: `postgresql://postgres:postgres@localhost:5432/app` (development only).
 
 ## Scripts
 
 Run from the repository root.
 
-| Script               | What it does                                                     |
-| -------------------- | ---------------------------------------------------------------- |
-| `pnpm build`         | Build every package (`turbo run build`)                          |
-| `pnpm lint`          | ESLint in every package; warnings fail the run                   |
-| `pnpm typecheck`     | `tsc --noEmit` in every package                                  |
-| `pnpm test`          | Vitest in every package                                          |
-| `pnpm test:coverage` | Tests with coverage; HTML report in `packages/*/coverage/`       |
-| `pnpm format`        | Format the whole repo with Prettier                              |
-| `pnpm format:check`  | Check formatting without writing (used by CI)                    |
-| `pnpm db:up`         | Start PostgreSQL in the background and wait until it is healthy  |
-| `pnpm db:down`       | Stop PostgreSQL, keep the data                                   |
-| `pnpm db:reset`      | Stop PostgreSQL and delete all data                              |
-| `pnpm db:logs`       | Follow the PostgreSQL logs                                       |
-| `pnpm db:psql`       | Open `psql` in the container; extra arguments are passed through |
+| Script               | What it does                                                                   |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `pnpm dev`           | Build the library, then watch it and run Storybook                             |
+| `pnpm build`         | Build every package and app (`turbo run build`)                                |
+| `pnpm lint`          | ESLint in every package; warnings fail the run                                 |
+| `pnpm lint:package`  | Check the published shape of `@ductmofficial/sen-ui` with `publint --strict`   |
+| `pnpm typecheck`     | `tsc --noEmit` in every package                                                |
+| `pnpm test`          | Vitest in every package, including story tests in Chromium                     |
+| `pnpm test:coverage` | Library tests with coverage; HTML report in `packages/sen-ui/coverage/`        |
+| `pnpm changeset`     | Describe a change to the library for the next release                          |
+| `pnpm release`       | Build the library and publish it with Changesets (run by the Release workflow) |
+| `pnpm format`        | Format the whole repo with Prettier                                            |
+| `pnpm format:check`  | Check formatting without writing (used by CI)                                  |
 
-Run a script in one package with a filter, e.g. `pnpm --filter @repo/ui test:watch`.
+Run a script in one package with a filter, e.g. `pnpm --filter @ductmofficial/sen-ui test:watch`.
 
 ## Project structure
 
 ```
 .
-├── apps/                       # applications (empty in the template)
+├── apps/
+│   └── docs/                     # Storybook: stories, a11y and render tests
 ├── packages/
-│   ├── eslint-config/          # @repo/eslint-config: `base`, `react`, `next`, `vite` flat configs
-│   ├── prettier-config/        # @repo/prettier-config
-│   ├── typescript-config/      # @repo/typescript-config: base, node, react-library, nextjs, vite-app
-│   └── ui/                     # @repo/ui: sample React library (Button + tests)
+│   ├── sen-ui/                   # @ductmofficial/sen-ui: the component library
+│   ├── eslint-config/            # @repo/eslint-config
+│   ├── prettier-config/          # @repo/prettier-config
+│   └── typescript-config/        # @repo/typescript-config
+├── .changeset/                   # pending release notes, consumed by `changeset version`
 ├── .github/
-│   ├── workflows/ci.yml        # CI for pull requests and pushes to main
-│   ├── workflows/pr-title.yml  # re-checks the PR title when only the title is edited
-│   ├── dependabot.yml          # weekly grouped npm and GitHub Actions updates
+│   ├── workflows/
+│   │   ├── ci.yml                # verify pull requests and pushes to main
+│   │   ├── pr-title.yml          # re-check the PR title when only the title is edited
+│   │   ├── storybook-pages.yml   # deploy Storybook to GitHub Pages
+│   │   └── release.yml           # version pull request and npm publish
+│   ├── dependabot.yml            # weekly grouped npm and GitHub Actions updates
 │   ├── rulesets/protect-main.json
 │   ├── pull_request_template.md
-│   └── ISSUE_TEMPLATE/         # bug report and feature request forms
-├── .husky/commit-msg           # runs commitlint on every commit
-├── compose.yaml                # local PostgreSQL 18
-├── turbo.json                  # task pipeline
+│   └── ISSUE_TEMPLATE/           # bug report and feature request forms
+├── .husky/commit-msg             # runs commitlint on every commit
+├── turbo.json                    # task pipeline
 ├── pnpm-workspace.yaml
-└── PROGRESS.md                 # build log: steps, decisions, issues
+└── PROGRESS.md                   # build log: steps, decisions, issues
 ```
 
 ## How it works
 
-**Task pipeline.** Each package defines its own `build`, `lint`, `typecheck` and `test` scripts. Root scripts call `turbo run <task>`, which runs them in dependency order (`^build` means "build my dependencies first"), in parallel where possible, and caches results by content hash. A second run with no changes finishes in milliseconds (`FULL TURBO`).
+**Task pipeline.** Each package defines its own `build`, `lint`, `typecheck` and `test` scripts. Root scripts call `turbo run <task>`, which runs them in dependency order (`^build` means "build my dependencies first"), in parallel where possible, and caches results by content hash.
 
-**Shared configuration.** TypeScript, ESLint and Prettier configs live in `packages/*-config` and are consumed with `workspace:*`. A new package only needs a two-line `eslint.config.js` and a `tsconfig.json` that `extends` a shared preset.
+**Library build.** Vite builds `src/` into ES modules, one file per source module so consumers can tree-shake, plus a single `styles.css`. `tsc` then adds one `.d.ts` per module. The `exports` map points at `dist/`, and `publint` checks the result in CI.
 
-**Internal packages are built.** `@repo/ui` is built with Vite library mode (one ES module per source file, so apps can drop unused code), and `tsc` adds only the type declarations. Vite empties `dist/` first, so renamed or deleted files never linger. `exports` point at `dist/`. `tsconfig.json` (editor and typecheck) includes tests; `tsconfig.build.json` excludes them from the output.
+**Docs use the built package.** Storybook imports `@ductmofficial/sen-ui` the way an app would, through `exports` and `dist/`, so packaging mistakes show up while developing. `pnpm dev` builds the library once, then runs `vite build --watch` next to Storybook. Vite empties `dist/` on every watch rebuild, so a small plugin in `packages/sen-ui/vite.config.ts` re-runs `tsc` after each rebuild to restore the type declarations.
 
-**Tests.** Vitest runs in jsdom. Component tests use Testing Library queries by role and `user-event`, so they check behavior the way a user sees it. Globals are off: test functions are imported explicitly and `vitest.setup.ts` calls `cleanup()`.
+**Tests.** Library tests run in jsdom with Testing Library queries by role and `user-event`. In `apps/docs`, the Storybook Vitest addon renders every story in headless Chromium and runs axe on it. Any accessibility violation fails the test (`a11y.test: "error"`).
 
-**CI.** `.github/workflows/ci.yml` installs with a frozen lockfile, lints commit messages and the PR title, checks formatting, then runs `turbo run lint typecheck test build`. The pnpm store and the Turbo cache are cached between runs, and a new push cancels the previous run of the same pull request. Editing only the PR title re-runs a light title check (`pr-title.yml`). Actions are pinned to commit SHAs, Dependabot proposes updates, and the token is read-only.
+**CI.** `.github/workflows/ci.yml` installs with a frozen lockfile, installs Chromium, lints commit messages and the PR title, checks formatting, then runs `turbo run lint typecheck test build lint:package`. A new push cancels the previous run of the same pull request, and editing only the PR title re-runs a light title check. Actions are pinned to commit SHAs, Dependabot proposes updates, and the default token is read-only.
 
-**Protected `main`.** The ruleset in `.github/rulesets/protect-main.json` requires a pull request, a passing `Verify` check, an up-to-date branch and linear history, and blocks force pushes and deletion. Merge with **rebase** (keeps focused commits) or **squash** (one commit from the PR title).
+**Protected `main`.** The ruleset in `.github/rulesets/protect-main.json` requires a pull request, a passing `Verify` check, an up-to-date branch and linear history, and blocks force pushes and deletion. Merge with **rebase** or **squash**.
+
+**Storybook deploy.** Every push to `main` builds the static Storybook and publishes it to GitHub Pages. Only the deploy job can write to Pages.
+
+**Releases.** Pull requests that change the library add a changeset. On `main`, the Release workflow collects pending changesets into a `chore: version packages` pull request that bumps the version and writes `CHANGELOG.md`. Merging it publishes to npm through trusted publishing (OIDC, no stored token) with provenance, then tags the commit and creates a GitHub release.
+
+> That version pull request is opened with the workflow's own token, which does not trigger other workflows, so its `Verify` check never starts. Close and reopen the pull request to run CI, then merge.
 
 ## Contributing workflow
 
 1. Branch from `main`: `git switch -c feat/short-description`
-2. Commit using [Conventional Commits](https://www.conventionalcommits.org): `type(scope): summary`, e.g. `feat(ui): add Card component`. The `commit-msg` hook rejects anything else.
-3. Push and open a PR: `gh pr create`
-4. Wait for the `Verify` check: `gh pr checks --watch`
-5. Merge: `gh pr merge --rebase --delete-branch`
-
-## Using this template for a new project
-
-1. Create the repository: `gh repo create <name> --template ductmOfficial/ductran-starter --public --clone`
-2. Rename the project: `name` in the root `package.json`, `name` in `compose.yaml`, and this README.
-3. Install and verify: `pnpm install && pnpm build && pnpm test`
-4. Protect `main` (rulesets are not copied by templates):
-   ```bash
-   gh api --method POST repos/<owner>/<name>/rulesets --input .github/rulesets/protect-main.json
-   gh repo edit --enable-merge-commit=false --delete-branch-on-merge
-   ```
-5. Keep or remove the sample `packages/ui`, and add apps under `apps/`.
-
-## Adding a Next.js app
-
-The `next` ESLint preset and the `nextjs` tsconfig preset are ready for an app under `apps/`:
-
-```js
-// apps/web/eslint.config.js
-import next from "@repo/eslint-config/next";
-
-export default next;
-```
-
-```json
-// apps/web/tsconfig.json
-{
-  "extends": "@repo/typescript-config/nextjs.json",
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
-  "exclude": ["node_modules"]
-}
-```
-
-- Use `"typecheck": "next typegen && tsc --noEmit"` so route types exist before `tsc` runs on a clean checkout.
-- The preset uses `@next/eslint-plugin-next` directly, not `eslint-config-next`: the plugins bundled with `eslint-config-next` do not support ESLint 10 yet.
-- `.next/` is git-ignored and listed in the Turbo `build` outputs (without `.next/cache/`), so a second build is a cache hit.
-- `@eslint-react/purity` also runs on Server Components, where reading `new Date()` during render is fine. Pass such values in as arguments, or turn the rule off for those files.
-
-## Adding a Vite app
-
-For a single-page app without a server, use the `vite` presets:
-
-```js
-// apps/web/eslint.config.js
-import vite from "@repo/eslint-config/vite";
-
-export default vite;
-```
-
-```json
-// apps/web/tsconfig.json
-{
-  "extends": "@repo/typescript-config/vite-app.json",
-  "include": ["src", "vite.config.ts"],
-  "compilerOptions": { "types": ["vite/client", "node"] }
-}
-```
-
-- The ESLint preset is the React preset plus Node globals for `*.config.*` files.
-- Add `@types/node` to the app if `vite.config.ts` uses Node APIs (as above).
+2. Commit using [Conventional Commits](https://www.conventionalcommits.org): `type(scope): summary`, e.g. `feat(sen-ui): add Card component`. The `commit-msg` hook rejects anything else.
+3. If users of the library will notice the change, run `pnpm changeset` and commit the generated file.
+4. Push and open a PR: `gh pr create`
+5. Wait for the `Verify` check: `gh pr checks --watch`
+6. Merge: `gh pr merge --rebase --delete-branch`
 
 ## Progress
 
