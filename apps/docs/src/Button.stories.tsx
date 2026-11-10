@@ -1,6 +1,6 @@
 import { Button } from "@ductmofficial/sen-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { fn } from "storybook/test";
+import { expect, fn } from "storybook/test";
 
 const meta = {
   title: "Components/Button",
@@ -31,4 +31,17 @@ export const Secondary: Story = {
 
 export const Disabled: Story = {
   args: { disabled: true },
+};
+
+// Runs the axe checks against the dark theme too.
+export const PrimaryDark: Story = {
+  globals: { theme: "dark" },
+  play: async () => {
+    await expect(document.documentElement).toHaveAttribute("data-theme", "dark");
+  },
+};
+
+export const SecondaryDark: Story = {
+  ...Secondary,
+  globals: { theme: "dark" },
 };

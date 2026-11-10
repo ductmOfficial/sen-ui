@@ -1,0 +1,6 @@
+/* The canvas follows the active theme, so stories (and their axe checks) render on the real background. */
+body {
+  background-color: var(--sen-color-bg);
+  color: var(--sen-color-fg);
+  font-family: var(--sen-font-family);
+}
