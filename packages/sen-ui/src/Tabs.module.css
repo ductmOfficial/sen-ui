@@ -1,0 +1,91 @@
+/* Reads the design tokens; React Aria exposes state as data-* attributes. */
+@layer sen {
+  .tabs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tabs[data-orientation="vertical"] {
+    flex-direction: row;
+  }
+
+  .list {
+    display: flex;
+    gap: var(--sen-space-1);
+    border-block-end: 1px solid var(--sen-color-border-subtle);
+  }
+
+  .list[data-orientation="vertical"] {
+    flex-direction: column;
+    border-block-end: none;
+    border-inline-end: 1px solid var(--sen-color-border-subtle);
+  }
+
+  .tab {
+    position: relative;
+    padding-block: var(--sen-space-2);
+    padding-inline: var(--sen-space-3);
+    border-radius: var(--sen-radius-sm) var(--sen-radius-sm) 0 0;
+    color: var(--sen-color-fg-muted);
+    font-weight: var(--sen-font-weight-medium);
+    line-height: var(--sen-line-height-tight);
+    cursor: pointer;
+    outline: none;
+    transition: color var(--sen-duration-fast) var(--sen-easing-standard);
+  }
+
+  /* The indicator sits on the list border, so the selected tab reads as connected to its panel. */
+  .tab::after {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: -1px;
+    block-size: 2px;
+    background-color: transparent;
+    content: "";
+  }
+
+  .list[data-orientation="vertical"] .tab {
+    border-radius: var(--sen-radius-sm) 0 0 var(--sen-radius-sm);
+  }
+
+  .list[data-orientation="vertical"] .tab::after {
+    inset-block: 0;
+    inset-inline: auto -1px;
+    block-size: auto;
+    inline-size: 2px;
+  }
+
+  .tab[data-hovered]:not([data-disabled]),
+  .tab[data-selected] {
+    color: var(--sen-color-fg);
+  }
+
+  .tab[data-selected]::after {
+    background-color: var(--sen-color-accent);
+  }
+
+  .tab[data-focus-visible] {
+    outline: var(--sen-focus-ring-width) solid var(--sen-focus-ring-color);
+    outline-offset: calc(-1 * var(--sen-focus-ring-width));
+  }
+
+  .tab[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .panel {
+    padding-block: var(--sen-space-4);
+    color: var(--sen-color-fg);
+  }
+
+  .tabs[data-orientation="vertical"] .panel {
+    padding-block: 0;
+    padding-inline: var(--sen-space-4);
+  }
+
+  .panel[data-focus-visible] {
+    outline: var(--sen-focus-ring-width) solid var(--sen-focus-ring-color);
+    outline-offset: var(--sen-focus-ring-offset);
+  }
+}
