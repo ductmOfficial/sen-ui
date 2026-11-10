@@ -3,6 +3,7 @@
 /// <reference types="node" />
 
 import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { defineConfig, type Plugin } from "vite";
 
 // In watch mode (`pnpm dev`) Vite empties dist/ on every rebuild, deleting the .d.ts files
@@ -22,8 +23,25 @@ function emitTypesInWatchMode(): Plugin {
   };
 }
 
+// Ships stylesheets that are not part of styles.css as standalone files, e.g. dist/tokens.css.
+function copyStylesheets(files: string[]): Plugin {
+  return {
+    name: "sen-ui:copy-stylesheets",
+    apply: "build",
+    generateBundle() {
+      for (const file of files) {
+        this.emitFile({
+          type: "asset",
+          fileName: file,
+          source: readFileSync(`src/${file}`, "utf8"),
+        });
+      }
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [emitTypesInWatchMode()],
+  plugins: [emitTypesInWatchMode(), copyStylesheets(["tokens.css"])],
   css: {
     modules: {
       // Readable, stable class names in the shipped CSS, e.g. `sen-button-a1b2c`.

@@ -1,0 +1,114 @@
+/*
+ * Sen UI design tokens.
+ *
+ * Semantic custom properties for color, typography, spacing, shape, focus and motion. Every
+ * component reads them, and apps can use them too. They live in the `sen` cascade layer, so any
+ * unlayered `:root { --sen-…: … }` in an app overrides them without specificity tricks.
+ *
+ * Themes: light by default; dark follows `prefers-color-scheme` unless the page sets
+ * `data-theme="light"`. `data-theme="dark"` or `"light"` on any element forces that theme for its
+ * subtree. Text colors meet WCAG 2.2 AA (4.5:1) against `bg` and `surface` in both themes; borders
+ * and the focus ring meet 3:1. `tokens.test.ts` checks this.
+ */
+@layer sen {
+  :root,
+  [data-theme="light"] {
+    color-scheme: light;
+
+    --sen-color-bg: #ffffff;
+    --sen-color-surface: #f4f4f5;
+    --sen-color-surface-hover: #e4e4e7;
+    --sen-color-fg: #18181b;
+    --sen-color-fg-muted: #52525b;
+    --sen-color-border: #71717a;
+    --sen-color-border-subtle: #d4d4d8;
+    --sen-color-accent: #2563eb;
+    --sen-color-accent-hover: #1d4ed8;
+    --sen-color-accent-text: #1d4ed8;
+    --sen-color-on-accent: #ffffff;
+    --sen-color-danger: #b91c1c;
+    --sen-focus-ring-color: #2563eb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+
+      --sen-color-bg: #18181b;
+      --sen-color-surface: #27272a;
+      --sen-color-surface-hover: #3f3f46;
+      --sen-color-fg: #fafafa;
+      --sen-color-fg-muted: #a1a1aa;
+      --sen-color-border: #8b8b94;
+      --sen-color-border-subtle: #3f3f46;
+      --sen-color-accent: #2563eb;
+      --sen-color-accent-hover: #1d4ed8;
+      --sen-color-accent-text: #93c5fd;
+      --sen-color-on-accent: #ffffff;
+      --sen-color-danger: #fca5a5;
+      --sen-focus-ring-color: #60a5fa;
+    }
+  }
+
+  [data-theme="dark"] {
+    color-scheme: dark;
+
+    --sen-color-bg: #18181b;
+    --sen-color-surface: #27272a;
+    --sen-color-surface-hover: #3f3f46;
+    --sen-color-fg: #fafafa;
+    --sen-color-fg-muted: #a1a1aa;
+    --sen-color-border: #8b8b94;
+    --sen-color-border-subtle: #3f3f46;
+    --sen-color-accent: #2563eb;
+    --sen-color-accent-hover: #1d4ed8;
+    --sen-color-accent-text: #93c5fd;
+    --sen-color-on-accent: #ffffff;
+    --sen-color-danger: #fca5a5;
+    --sen-focus-ring-color: #60a5fa;
+  }
+
+  :root {
+    /* Typography: components inherit the app's font; these are for apps that want the defaults. */
+    --sen-font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --sen-font-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sen-font-size-sm: 0.875rem;
+    --sen-font-size-md: 1rem;
+    --sen-font-size-lg: 1.125rem;
+    --sen-font-weight-regular: 400;
+    --sen-font-weight-medium: 500;
+    --sen-font-weight-semibold: 600;
+    --sen-line-height-tight: 1.25;
+    --sen-line-height-normal: 1.5;
+
+    /* Spacing: a 4px scale. */
+    --sen-space-1: 0.25rem;
+    --sen-space-2: 0.5rem;
+    --sen-space-3: 0.75rem;
+    --sen-space-4: 1rem;
+    --sen-space-5: 1.25rem;
+    --sen-space-6: 1.5rem;
+    --sen-space-8: 2rem;
+
+    /* Shape and sizing. */
+    --sen-radius-sm: 0.25rem;
+    --sen-radius-md: 0.375rem;
+    --sen-radius-lg: 0.5rem;
+    --sen-radius-full: 9999px;
+    --sen-control-height-md: 2.5rem;
+
+    /* Focus ring: color per theme above. */
+    --sen-focus-ring-width: 2px;
+    --sen-focus-ring-offset: 2px;
+
+    /* Motion. */
+    --sen-duration-fast: 120ms;
+    --sen-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --sen-duration-fast: 0ms;
+    }
+  }
+}
