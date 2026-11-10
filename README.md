@@ -20,17 +20,17 @@ Created from the [`ductran-starter`](https://github.com/ductmOfficial/ductran-st
 
 ## What's inside
 
-| Area        | Tools                                                                                 |
-| ----------- | ------------------------------------------------------------------------------------- |
-| Monorepo    | [pnpm](https://pnpm.io) workspaces, [Turborepo](https://turborepo.com)                |
-| Language    | TypeScript 6 (strict), Node.js 24 LTS                                                 |
-| Library     | React 19, CSS Modules in `@layer sen`, Vite 8 library build, `.d.ts` from `tsc`       |
-| Docs        | Storybook 10 with the a11y and Vitest addons                                          |
-| Testing     | Vitest 5: jsdom and Testing Library for components, headless Chromium for stories     |
-| Lint/format | ESLint 10 (flat config, type-aware `typescript-eslint`, `@eslint-react`), Prettier 3  |
-| Release     | Changesets, npm trusted publishing (OIDC) with provenance, `publint`                  |
-| CI/CD       | GitHub Actions: verify every pull request, deploy Storybook to Pages, release to npm  |
-| Conventions | Conventional Commits (commitlint + husky), protected `main`, PR template, issue forms |
+| Area        | Tools                                                                                                 |
+| ----------- | ----------------------------------------------------------------------------------------------------- |
+| Monorepo    | [pnpm](https://pnpm.io) workspaces, [Turborepo](https://turborepo.com)                                |
+| Language    | TypeScript 6 (strict), Node.js 24 LTS                                                                 |
+| Library     | React 19, design tokens with light and dark themes, CSS Modules in `@layer sen`, Vite 8 library build |
+| Docs        | Storybook 10 with the a11y and Vitest addons                                                          |
+| Testing     | Vitest 5: jsdom and Testing Library for components, headless Chromium for stories                     |
+| Lint/format | ESLint 10 (flat config, type-aware `typescript-eslint`, `@eslint-react`), Prettier 3                  |
+| Release     | Changesets, npm trusted publishing (OIDC) with provenance, `publint`                                  |
+| CI/CD       | GitHub Actions: verify every pull request, deploy Storybook to Pages, release to npm                  |
+| Conventions | Conventional Commits (commitlint + husky), protected `main`, PR template, issue forms                 |
 
 ## Requirements
 
@@ -106,9 +106,11 @@ Run a script in one package with a filter, e.g. `pnpm --filter @ductmofficial/se
 
 **Library build.** Vite builds `src/` into ES modules, one file per source module so consumers can tree-shake, plus a single `styles.css`. `tsc` then adds one `.d.ts` per module. The `exports` map points at `dist/`, and `publint` checks the result in CI.
 
+**Design tokens.** `packages/sen-ui/src/tokens.css` defines the `--sen-*` tokens for both themes. It is bundled into `styles.css` and also shipped alone, together with a Tailwind CSS v4 theme (`tailwind.css`). Unit tests check that both themes define the same colors and meet WCAG contrast, and that component CSS only falls back to tokens that exist.
+
 **Docs use the built package.** Storybook imports `@ductmofficial/sen-ui` the way an app would, through `exports` and `dist/`, so packaging mistakes show up while developing. `pnpm dev` builds the library once, then runs `vite build --watch` next to Storybook. Vite empties `dist/` on every watch rebuild, so a small plugin in `packages/sen-ui/vite.config.ts` re-runs `tsc` after each rebuild to restore the type declarations.
 
-**Tests.** Library tests run in jsdom with Testing Library queries by role and `user-event`. In `apps/docs`, the Storybook Vitest addon renders every story in headless Chromium and runs axe on it. Any accessibility violation fails the test (`a11y.test: "error"`).
+**Tests.** Library tests run in jsdom with Testing Library queries by role and `user-event`. In `apps/docs`, the Storybook Vitest addon renders every story in headless Chromium and runs axe on it; dark stories pin the theme with `globals`, so contrast is checked in both themes. Any accessibility violation fails the test (`a11y.test: "error"`).
 
 **CI.** `.github/workflows/ci.yml` installs with a frozen lockfile, installs Chromium, lints commit messages and the PR title, checks formatting, then runs `turbo run lint typecheck test build lint:package`. A new push cancels the previous run of the same pull request, and editing only the PR title re-runs a light title check. Actions are pinned to commit SHAs, Dependabot proposes updates, and the default token is read-only.
 
