@@ -1,0 +1,20 @@
+/* Inverted colors from the design tokens, so the tooltip stands out in both themes. */
+@layer sen {
+  .tooltip {
+    max-inline-size: 16rem;
+    padding-block: var(--sen-space-1);
+    padding-inline: var(--sen-space-2);
+    border-radius: var(--sen-radius-sm);
+    background-color: var(--sen-color-fg);
+    color: var(--sen-color-bg);
+    font-size: var(--sen-font-size-sm);
+    line-height: var(--sen-line-height-normal);
+    overflow-wrap: break-word;
+    transition: opacity var(--sen-duration-fast) var(--sen-easing-standard);
+  }
+
+  .tooltip[data-entering],
+  .tooltip[data-exiting] {
+    opacity: 0;
+  }
+}

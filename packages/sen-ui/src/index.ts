@@ -6,3 +6,5 @@ export { TextField } from "./TextField.js";
 export type { TextFieldProps } from "./TextField.js";
 export { Checkbox } from "./Checkbox.js";
 export type { CheckboxProps } from "./Checkbox.js";
+export { Tooltip } from "./Tooltip.js";
+export type { TooltipProps } from "./Tooltip.js";
