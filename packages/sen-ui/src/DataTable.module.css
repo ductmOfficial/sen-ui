@@ -1,0 +1,115 @@
+/* Reads the design tokens. Header and body share one column template (--_columns). */
+@layer sen {
+  .grid {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--sen-color-border-subtle);
+    border-radius: var(--sen-radius-md);
+    background-color: var(--sen-color-bg);
+    color: var(--sen-color-fg);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .head {
+    /* Same gutter as the body, so header and body columns line up whether or not it scrolls. */
+    overflow: hidden;
+    scrollbar-gutter: stable;
+    border-block-end: 1px solid var(--sen-color-border);
+    background-color: var(--sen-color-surface);
+  }
+
+  .body {
+    position: relative;
+    overflow: auto;
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+  }
+
+  .sizer {
+    position: relative;
+    inline-size: 100%;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: var(--_columns);
+    align-items: stretch;
+  }
+
+  .sizer > .row {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 0;
+    border-block-end: 1px solid var(--sen-color-border-subtle);
+  }
+
+  .sizer > .row[data-selected] {
+    background-color: var(--sen-color-surface);
+  }
+
+  .cell {
+    display: flex;
+    align-items: center;
+    gap: var(--sen-space-1);
+    min-inline-size: 0;
+    padding-inline: var(--sen-space-3);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    outline: none;
+  }
+
+  .cell[data-align="end"] {
+    justify-content: flex-end;
+    text-align: end;
+  }
+
+  .cell:focus-visible {
+    outline: var(--sen-focus-ring-width) solid var(--sen-focus-ring-color);
+    outline-offset: calc(-1 * var(--sen-focus-ring-width));
+  }
+
+  .header {
+    font-weight: var(--sen-font-weight-semibold);
+    user-select: none;
+  }
+
+  .sortable {
+    cursor: pointer;
+  }
+
+  .sortable:hover {
+    background-color: var(--sen-color-surface-hover);
+  }
+
+  .sortIcon {
+    flex: none;
+    inline-size: 1rem;
+    block-size: 1rem;
+    fill: none;
+    stroke: var(--sen-color-fg-muted);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .sortIcon[data-active] {
+    stroke: var(--sen-color-accent-text);
+  }
+
+  .selectCell {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .emptyRow {
+    display: grid;
+  }
+
+  .empty {
+    justify-content: center;
+    padding: var(--sen-space-6);
+    color: var(--sen-color-fg-muted);
+  }
+}
