@@ -1,0 +1,21 @@
+/* Select's button; the shared field styles live in Field.module.css. */
+@layer sen {
+  .button {
+    justify-content: space-between;
+    gap: var(--sen-space-2);
+    padding-block: var(--sen-space-2);
+    padding-inline: var(--sen-space-3);
+    cursor: pointer;
+    text-align: start;
+    outline: none;
+  }
+
+  .button[data-focus-visible] {
+    outline: var(--sen-focus-ring-width) solid var(--sen-focus-ring-color);
+    outline-offset: var(--sen-focus-ring-offset);
+  }
+
+  .value[data-placeholder] {
+    color: var(--sen-color-fg-muted);
+  }
+}

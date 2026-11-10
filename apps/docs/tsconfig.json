@@ -2,6 +2,10 @@
   "extends": "@repo/typescript-config/react-library.json",
   "compilerOptions": {
     "noEmit": true,
+    // The docs app is never imported, so it needs no declarations; with them on, stories of generic
+    // components fail with TS2883 ("inferred type cannot be named").
+    "declaration": false,
+    "declarationMap": false,
     "types": ["vite/client"]
   },
   // TypeScript skips dot-folders in wildcards unless they are named explicitly.

@@ -1,0 +1,60 @@
+/* Shared by fields built on React Aria (Select, ComboBox); reads the design tokens. */
+@layer sen {
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sen-space-1);
+  }
+
+  .label {
+    color: var(--sen-color-fg);
+    font-weight: var(--sen-font-weight-semibold);
+    line-height: var(--sen-line-height-tight);
+  }
+
+  .description {
+    color: var(--sen-color-fg-muted);
+    font-size: var(--sen-font-size-sm);
+  }
+
+  .error {
+    color: var(--sen-color-danger);
+    font-size: var(--sen-font-size-sm);
+  }
+
+  /* The visible box: Select's button, or ComboBox's input and button. */
+  .control {
+    --_border-color: var(--sen-color-border);
+
+    display: flex;
+    align-items: center;
+    min-block-size: var(--sen-control-height-md);
+    border: 1px solid var(--_border-color);
+    border-radius: var(--sen-radius-md);
+    background-color: var(--sen-color-bg);
+    color: var(--sen-color-fg);
+    font: inherit;
+    line-height: var(--sen-line-height-tight);
+  }
+
+  .field[data-invalid] .control {
+    --_border-color: var(--sen-color-danger);
+  }
+
+  .field[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .chevron {
+    flex: none;
+    inline-size: 1rem;
+    block-size: 1rem;
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    color: var(--sen-color-fg-muted);
+  }
+}
