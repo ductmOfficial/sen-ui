@@ -10,3 +10,5 @@ export { Tooltip } from "./Tooltip.js";
 export type { TooltipProps } from "./Tooltip.js";
 export { Tab, TabList, TabPanel, Tabs } from "./Tabs.js";
 export type { TabListProps, TabPanelProps, TabProps, TabsProps } from "./Tabs.js";
+export { Dialog, DialogActions, DialogTrigger } from "./Dialog.js";
+export type { DialogActionsProps, DialogProps, DialogTriggerProps } from "./Dialog.js";
