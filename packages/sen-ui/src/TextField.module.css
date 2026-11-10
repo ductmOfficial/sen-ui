@@ -1,0 +1,54 @@
+/* Placeholder values until tokens.css lands; each --sen-text-field-* property can be overridden. */
+@layer sen {
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .label {
+    color: var(--sen-text-field-label-color, #111827);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .description {
+    margin: 0;
+    color: var(--sen-text-field-description-color, #4b5563);
+    font-size: 0.875em;
+  }
+
+  .input {
+    --_border-color: var(--sen-text-field-border-color, #6b7280);
+
+    min-block-size: 2.5rem;
+    padding-block: 0.5rem;
+    padding-inline: 0.75rem;
+    border: 1px solid var(--_border-color);
+    border-radius: var(--sen-text-field-radius, 0.375rem);
+    background-color: var(--sen-text-field-background, #fff);
+    color: var(--sen-text-field-color, #111827);
+    font: inherit;
+    line-height: 1.25;
+  }
+
+  .input:focus-visible {
+    outline: 2px solid var(--sen-focus-ring-color, #1d4ed8);
+    outline-offset: 2px;
+  }
+
+  .input:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .field[data-invalid] .input {
+    --_border-color: var(--sen-text-field-error-color, #b91c1c);
+  }
+
+  .error {
+    margin: 0;
+    color: var(--sen-text-field-error-color, #b91c1c);
+    font-size: 0.875em;
+  }
+}
