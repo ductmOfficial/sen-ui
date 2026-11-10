@@ -8,14 +8,14 @@ Sen UI is an accessible React component library published to npm as `@ductmoffic
 
 ## Phases
 
-| #   | Phase              | Scope                                                                                             | Release    | Status |
-| --- | ------------------ | ------------------------------------------------------------------------------------------------- | ---------- | ------ |
-| 0   | Foundation         | Library build, Storybook, a11y story tests, Pages, Changesets, npm release, `Button`, `TextField` | `0.1.0`    | ✅     |
-| 1   | Tokens and theming | `tokens.css`, dark mode, Tailwind theme; `Button` and `TextField` on tokens                       | `0.2.0`    | ✅     |
-| 2   | Simple components  | React Aria Components; `Checkbox`, `Tooltip`, `Tabs`                                              | `0.3.0`    | ✅     |
-| 3   | Overlay components | `Dialog`, `Select`, `ComboBox` (`Toast` deferred)                                                 | `0.4.0`    | ✅     |
-| 4   | DataTable          | Typed columns, sort, filter, virtualization, ARIA grid keyboard navigation                        | `0.5.0`    | ⬜     |
-| 5   | Polish             | Screen reader pass, design decisions in the README, bundle size                                   | next minor | ⬜     |
+| #   | Phase              | Scope                                                                                                        | Release    | Status |
+| --- | ------------------ | ------------------------------------------------------------------------------------------------------------ | ---------- | ------ |
+| 0   | Foundation         | Library build, Storybook, a11y story tests, Pages, Changesets, npm release, `Button`, `TextField`            | `0.1.0`    | ✅     |
+| 1   | Tokens and theming | `tokens.css`, dark mode, Tailwind theme; `Button` and `TextField` on tokens                                  | `0.2.0`    | ✅     |
+| 2   | Simple components  | React Aria Components; `Checkbox`, `Tooltip`, `Tabs`                                                         | `0.3.0`    | ✅     |
+| 3   | Overlay components | `Dialog`, `Select`, `ComboBox` (`Toast` deferred)                                                            | `0.4.0`    | ✅     |
+| 4   | DataTable          | Typed columns, sort, global and column filters, virtualization, ARIA grid keyboard navigation, row selection | `0.5.0`    | ✅     |
+| 5   | Polish             | Screen reader pass, design decisions in the README, bundle size                                              | next minor | ⬜     |
 
 ## Phase 0 — Foundation
 
@@ -69,6 +69,16 @@ Released as `0.3.0`.
 
 `Toast` is deferred: React Aria Components 1.22 still ships it as `UNSTABLE_Toast`, and a public API should not wrap an unstable one. Released as `0.4.0`.
 
+## Phase 4 — DataTable
+
+| #   | Step                                                              | Branch                  |
+| --- | ----------------------------------------------------------------- | ----------------------- |
+| 1   | Row model: filtering, sorting and the sort cycle, unit tested     | `feat/data-table-model` |
+| 2   | `DataTable`: ARIA grid, virtualization, keyboard, sort, selection | `feat/data-table`       |
+| 3   | README and progress log                                           | `docs/phase-4`          |
+
+Released as `0.5.0`.
+
 ## Decisions
 
 | Decision                                                              | Reason                                                                                                                        |
@@ -102,10 +112,20 @@ Released as `0.3.0`.
 | `DialogTrigger` wraps its trigger in React Aria's `Pressable`         | Sen UI's native `Button` opens a dialog without becoming a React Aria button                                                  |
 | Fields take `error`, not `errorMessage` and `isInvalid`               | Same API as `TextField`: one prop shows the message and marks the field invalid                                               |
 | `Toast` deferred until React Aria marks it stable                     | Wrapping an `UNSTABLE_` API would pass its breaking changes on to Sen UI users                                                |
+| DataTable rows virtualized with TanStack Virtual                      | A small, headless, widely used engine for which rows are visible; the grid, ARIA and keyboard model stay Sen UI's own         |
+| DataTable written from scratch, not React Aria's `Table`              | The grid pattern, keyboard model and virtualization are the point of the component                                            |
+| Fixed row height                                                      | Predictable scrolling and PageUp/PageDown; variable heights can come later through the virtualizer's measuring                |
+| Row logic in a pure module (`dataTableModel.ts`)                      | Sorting and filtering are tested without rendering, and the same rules apply in every table                                   |
+| Filters as props, inputs owned by the app                             | Search fields and selects come from Sen UI or the app; the table only applies the values                                      |
+| `manual` mode for server data                                         | The same component serves local lists and server-paginated data like warehouse dashboards                                     |
+| Sort cycle: ascending, descending, unsorted                           | A third press returns to the source order, which is often meaningful (for example, newest first from the server)              |
+| The header cell is the sort control                                   | Keeps one focus target per cell; `aria-sort` announces the state                                                              |
+| Selection checkboxes are Sen UI `Checkbox` with `excludeFromTabOrder` | The grid keeps a single tab stop; the checkbox still works with the mouse, and Space on the cell toggles the row              |
 | No Co-Authored-By trailer in commits                                  | Maintainer's preference                                                                                                       |
 
 ## Follow-ups
 
+- [ ] DataTable: variable row heights, column resizing, and a server-data story with `manual`
 - [ ] Add `Toast` once React Aria Components ships it without the `UNSTABLE_` prefix
 - [x] Confirm the trusted publisher with `npm trust list @ductmofficial/sen-ui`: GitHub, `ductmOfficial/sen-ui`, `release.yml`
 - [x] Deprecate the `0.0.0-stage` placeholder that staged publishing left on npm
@@ -126,3 +146,5 @@ Released as `0.3.0`.
 - **2026-11-10:** React Aria Components 1.22 marks `Checkbox` as deprecated (`@typescript-eslint/no-deprecated` failed lint); `Checkbox` is built on `CheckboxField` and `CheckboxButton` instead.
 - **2026-11-10:** stories of generic components (`Select`, `ComboBox`) failed typecheck with TS2883 because the docs app inherited `declaration: true`. The docs app now turns declarations off.
 - **2026-11-10:** with jsdom 31, focus moves back to a dialog's trigger asynchronously, so the unit test waits for it.
+- **2026-11-10:** in jsdom every element has `clientHeight` 0, so the virtualizer rendered no rows. The DataTable tests give the scrolling body its CSS height through a `clientHeight` getter.
+- **2026-11-10:** `@typescript-eslint/prefer-nullish-coalescing` flagged `value === undefined ? inner : value` in the controlled-state helper, but `??` would treat a controlled `null` sort as uncontrolled; the line keeps the ternary with a reasoned disable comment.
