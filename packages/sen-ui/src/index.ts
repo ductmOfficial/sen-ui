@@ -12,3 +12,5 @@ export { Tab, TabList, TabPanel, Tabs } from "./Tabs.js";
 export type { TabListProps, TabPanelProps, TabProps, TabsProps } from "./Tabs.js";
 export { Dialog, DialogActions, DialogTrigger } from "./Dialog.js";
 export type { DialogActionsProps, DialogProps, DialogTriggerProps } from "./Dialog.js";
+export { Select, SelectItem } from "./Select.js";
+export type { SelectItemProps, SelectProps } from "./Select.js";

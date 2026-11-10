@@ -1,0 +1,81 @@
+/* The popover list shared by Select and ComboBox; reads the design tokens. */
+@layer sen {
+  .popover {
+    inline-size: var(--trigger-width);
+    max-block-size: 18rem;
+    overflow: auto;
+    border: 1px solid var(--sen-color-border-subtle);
+    border-radius: var(--sen-radius-md);
+    background-color: var(--sen-color-bg);
+    box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 0.2);
+  }
+
+  .popover[data-entering] {
+    animation: fade var(--sen-duration-fast) var(--sen-easing-standard);
+  }
+
+  .popover[data-exiting] {
+    animation: fade var(--sen-duration-fast) var(--sen-easing-standard) reverse;
+  }
+
+  .listbox {
+    display: flex;
+    flex-direction: column;
+    padding: var(--sen-space-1);
+    outline: none;
+  }
+
+  .empty {
+    padding: var(--sen-space-2) var(--sen-space-3);
+    color: var(--sen-color-fg-muted);
+    font-size: var(--sen-font-size-sm);
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sen-space-2);
+    padding-block: var(--sen-space-2);
+    padding-inline: var(--sen-space-3);
+    border-radius: var(--sen-radius-sm);
+    color: var(--sen-color-fg);
+    line-height: var(--sen-line-height-tight);
+    cursor: default;
+    outline: none;
+  }
+
+  .item[data-focused] {
+    background-color: var(--sen-color-surface-hover);
+  }
+
+  .item[data-focus-visible] {
+    outline: var(--sen-focus-ring-width) solid var(--sen-focus-ring-color);
+    outline-offset: calc(-1 * var(--sen-focus-ring-width));
+  }
+
+  .item[data-selected] {
+    font-weight: var(--sen-font-weight-semibold);
+  }
+
+  .item[data-disabled] {
+    opacity: 0.5;
+  }
+
+  .check {
+    flex: none;
+    inline-size: 1rem;
+    block-size: 1rem;
+    fill: none;
+    stroke: var(--sen-color-accent-text);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+}
