@@ -13,7 +13,7 @@ Sen UI is an accessible React component library published to npm as `@ductmoffic
 | 0   | Foundation         | Library build, Storybook, a11y story tests, Pages, Changesets, npm release, `Button`, `TextField` | `0.1.0`    | ✅     |
 | 1   | Tokens and theming | `tokens.css`, dark mode, Tailwind theme; `Button` and `TextField` on tokens                       | `0.2.0`    | ✅     |
 | 2   | Simple components  | React Aria Components; `Checkbox`, `Tooltip`, `Tabs`                                              | `0.3.0`    | ✅     |
-| 3   | Overlay components | `Dialog`, `Select`/`Combobox`, `Toast`                                                            | `0.4.0`    | ⬜     |
+| 3   | Overlay components | `Dialog`, `Select`, `ComboBox` (`Toast` deferred)                                                 | `0.4.0`    | ✅     |
 | 4   | DataTable          | Typed columns, sort, filter, virtualization, ARIA grid keyboard navigation                        | `0.5.0`    | ⬜     |
 | 5   | Polish             | Screen reader pass, design decisions in the README, bundle size                                   | next minor | ⬜     |
 
@@ -58,6 +58,17 @@ Released as `0.2.0` through the version pull request, the first publish through 
 
 Released as `0.3.0`.
 
+## Phase 3 — Overlay components
+
+| #   | Step                                                 | Branch          |
+| --- | ---------------------------------------------------- | --------------- |
+| 1   | `Dialog`, `DialogTrigger`, `DialogActions`           | `feat/dialog`   |
+| 2   | `Select`, `SelectItem`, shared field and list styles | `feat/select`   |
+| 3   | `ComboBox`, `ComboBoxItem`                           | `feat/combobox` |
+| 4   | README and progress log                              | `docs/phase-3`  |
+
+`Toast` is deferred: React Aria Components 1.22 still ships it as `UNSTABLE_Toast`, and a public API should not wrap an unstable one. Released as `0.4.0`.
+
 ## Decisions
 
 | Decision                                                              | Reason                                                                                                                        |
@@ -88,10 +99,14 @@ Released as `0.3.0`.
 | `Checkbox` uses `CheckboxField` and `CheckboxButton`                  | React Aria 1.22 deprecates `Checkbox` in favor of the pair, which also gives the description its slot                         |
 | `Tooltip` takes one trigger and wraps it in React Aria's `Focusable`  | Works with Sen UI's native `Button` and any component that forwards `ref` and DOM props                                       |
 | Tooltip hover tested in the browser, not in jsdom                     | React Aria only opens on hover after a pointer interaction; jsdom cannot reproduce that reliably                              |
+| `DialogTrigger` wraps its trigger in React Aria's `Pressable`         | Sen UI's native `Button` opens a dialog without becoming a React Aria button                                                  |
+| Fields take `error`, not `errorMessage` and `isInvalid`               | Same API as `TextField`: one prop shows the message and marks the field invalid                                               |
+| `Toast` deferred until React Aria marks it stable                     | Wrapping an `UNSTABLE_` API would pass its breaking changes on to Sen UI users                                                |
 | No Co-Authored-By trailer in commits                                  | Maintainer's preference                                                                                                       |
 
 ## Follow-ups
 
+- [ ] Add `Toast` once React Aria Components ships it without the `UNSTABLE_` prefix
 - [x] Confirm the trusted publisher with `npm trust list @ductmofficial/sen-ui`: GitHub, `ductmOfficial/sen-ui`, `release.yml`
 - [x] Deprecate the `0.0.0-stage` placeholder that staged publishing left on npm
 - [ ] GitHub-aware changelog entries (`@changesets/changelog-github`: PR links and authors)
@@ -109,3 +124,5 @@ Released as `0.3.0`.
 - **2026-11-10:** the npm token exchange answers `201 Created` on success; the pre-publish check first accepted only `200`.
 - **2026-11-10:** the version pull request was updated by the Release workflow while its CI was running. Merge it last, after every pull request of the release is in.
 - **2026-11-10:** React Aria Components 1.22 marks `Checkbox` as deprecated (`@typescript-eslint/no-deprecated` failed lint); `Checkbox` is built on `CheckboxField` and `CheckboxButton` instead.
+- **2026-11-10:** stories of generic components (`Select`, `ComboBox`) failed typecheck with TS2883 because the docs app inherited `declaration: true`. The docs app now turns declarations off.
+- **2026-11-10:** with jsdom 31, focus moves back to a dialog's trigger asynchronously, so the unit test waits for it.
