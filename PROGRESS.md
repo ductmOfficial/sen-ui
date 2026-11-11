@@ -15,7 +15,7 @@ Sen UI is an accessible React component library published to npm as `@ductmoffic
 | 2   | Simple components  | React Aria Components; `Checkbox`, `Tooltip`, `Tabs`                                                         | `0.3.0`    | ✅     |
 | 3   | Overlay components | `Dialog`, `Select`, `ComboBox` (`Toast` deferred)                                                            | `0.4.0`    | ✅     |
 | 4   | DataTable          | Typed columns, sort, global and column filters, virtualization, ARIA grid keyboard navigation, row selection | `0.5.0`    | ✅     |
-| 5   | Polish             | Screen reader pass, design decisions in the README, bundle size                                              | next minor | ⬜     |
+| 5   | Polish             | Screen reader pass, design decisions in the README, bundle size                                              | next minor | 🔄     |
 
 ## Phase 0 — Foundation
 
@@ -79,6 +79,14 @@ Released as `0.3.0`.
 
 Released as `0.5.0`.
 
+## Phase 5 — Polish
+
+| #   | Step                                                                                          | Status |
+| --- | --------------------------------------------------------------------------------------------- | ------ |
+| 1   | Bundle size per component (`pnpm --filter @ductmofficial/sen-ui size`), in the package README | ✅     |
+| 2   | Screen reader pass with VoiceOver on every component                                          | ⬜     |
+| 3   | Design decisions explained in the README                                                      | ⬜     |
+
 ## Decisions
 
 | Decision                                                              | Reason                                                                                                                        |
@@ -121,10 +129,13 @@ Released as `0.5.0`.
 | Sort cycle: ascending, descending, unsorted                           | A third press returns to the source order, which is often meaningful (for example, newest first from the server)              |
 | The header cell is the sort control                                   | Keeps one focus target per cell; `aria-sort` announces the state                                                              |
 | Selection checkboxes are Sen UI `Checkbox` with `excludeFromTabOrder` | The grid keeps a single tab stop; the checkbox still works with the mouse, and Space on the cell toggles the row              |
+| Bundle size measured from `dist/`, without React                      | Shows what Sen UI itself adds to an app; React is there anyway                                                                |
+| A locales column in the size report                                   | React Aria ships strings for 34 locales; the column shows what an app saves with `@react-aria/optimize-locales-plugin`        |
 | No Co-Authored-By trailer in commits                                  | Maintainer's preference                                                                                                       |
 
 ## Follow-ups
 
+- [ ] Fail CI when a component grows past a size budget
 - [ ] DataTable: variable row heights, column resizing, and a server-data story with `manual`
 - [ ] Add `Toast` once React Aria Components ships it without the `UNSTABLE_` prefix
 - [x] Confirm the trusted publisher with `npm trust list @ductmofficial/sen-ui`: GitHub, `ductmOfficial/sen-ui`, `release.yml`

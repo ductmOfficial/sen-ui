@@ -155,6 +155,33 @@ This adds utilities such as `bg-sen-bg`, `text-sen-fg`, `text-sen-fg-muted`, `bo
 
 The package is ESM-only and marks only `*.css` as having side effects, so bundlers keep the stylesheet import but can tree-shake unused components.
 
+## Bundle size
+
+What an app ships when it imports Sen UI, measured from the published build with `pnpm --filter @ductmofficial/sen-ui size` (Vite production build, minified, gzip level 9). JavaScript includes Sen UI and its runtime dependencies (`react-aria-components`, `@tanstack/react-virtual`) but not React. The last column keeps three locales of React Aria's built-in strings, as an app does with [`@react-aria/optimize-locales-plugin`](https://react-spectrum.adobe.com/react-aria/internationalization.html#optimizing-bundle-size).
+
+| Import      | Minified |  Gzipped | Gzipped, 3 locales |
+| ----------- | -------: | -------: | -----------------: |
+| `Button`    |   0.4 kB |   0.3 kB |             0.3 kB |
+| `TextField` |   1.2 kB |   0.6 kB |             0.6 kB |
+| `Checkbox`  |  68.5 kB |  18.0 kB |            18.0 kB |
+| `Tooltip`   |  57.2 kB |  16.4 kB |            16.4 kB |
+| `Tabs`      |  60.1 kB |  15.4 kB |            15.4 kB |
+| `Dialog`    |  89.1 kB |  22.9 kB |            22.0 kB |
+| `Select`    | 248.3 kB |  62.8 kB |            56.9 kB |
+| `ComboBox`  | 278.9 kB |  68.0 kB |            60.1 kB |
+| `DataTable` | 120.4 kB |  32.0 kB |            32.0 kB |
+| Everything  | 412.5 kB | 101.7 kB |            90.9 kB |
+
+| Stylesheet   | Minified | Gzipped |
+| ------------ | -------: | ------: |
+| `styles.css` |  21.4 kB |  4.1 kB |
+| `tokens.css` |   3.5 kB |  1.2 kB |
+
+- **Unused components are dropped.** Each import above is measured alone; `Button` and `TextField` are plain React and stay under 1 kB.
+- **React Aria is shared.** Components built on it share code: `Checkbox`, `Tooltip` and `Tabs` imported together are 34.9 kB gzipped, not the 49.8 kB sum of their rows. "Everything" is the ceiling.
+- **`Select` and `ComboBox` are the heaviest:** a popover, a collection and a listbox with type-ahead and positioning. Load them where they are used (`React.lazy`) on pages that need a small first load.
+- **One stylesheet.** `styles.css` holds every component and the tokens; it is small enough that splitting it per component is not worth the extra imports.
+
 ## License
 
 [MIT](LICENSE) © 2026 Duc Tran

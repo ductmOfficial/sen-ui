@@ -56,19 +56,20 @@ pnpm build    # build the library and the static Storybook
 
 Run from the repository root.
 
-| Script               | What it does                                                                   |
-| -------------------- | ------------------------------------------------------------------------------ |
-| `pnpm dev`           | Build the library, then watch it and run Storybook                             |
-| `pnpm build`         | Build every package and app (`turbo run build`)                                |
-| `pnpm lint`          | ESLint in every package; warnings fail the run                                 |
-| `pnpm lint:package`  | Check the published shape of `@ductmofficial/sen-ui` with `publint --strict`   |
-| `pnpm typecheck`     | `tsc --noEmit` in every package                                                |
-| `pnpm test`          | Vitest in every package, including story tests in Chromium                     |
-| `pnpm test:coverage` | Library tests with coverage; HTML report in `packages/sen-ui/coverage/`        |
-| `pnpm changeset`     | Describe a change to the library for the next release                          |
-| `pnpm release`       | Build the library and publish it with Changesets (run by the Release workflow) |
-| `pnpm format`        | Format the whole repo with Prettier                                            |
-| `pnpm format:check`  | Check formatting without writing (used by CI)                                  |
+| Script                                     | What it does                                                                   |
+| ------------------------------------------ | ------------------------------------------------------------------------------ |
+| `pnpm dev`                                 | Build the library, then watch it and run Storybook                             |
+| `pnpm build`                               | Build every package and app (`turbo run build`)                                |
+| `pnpm lint`                                | ESLint in every package; warnings fail the run                                 |
+| `pnpm lint:package`                        | Check the published shape of `@ductmofficial/sen-ui` with `publint --strict`   |
+| `pnpm --filter @ductmofficial/sen-ui size` | Bundle size per component, gzipped, from the built package                     |
+| `pnpm typecheck`                           | `tsc --noEmit` in every package                                                |
+| `pnpm test`                                | Vitest in every package, including story tests in Chromium                     |
+| `pnpm test:coverage`                       | Library tests with coverage; HTML report in `packages/sen-ui/coverage/`        |
+| `pnpm changeset`                           | Describe a change to the library for the next release                          |
+| `pnpm release`                             | Build the library and publish it with Changesets (run by the Release workflow) |
+| `pnpm format`                              | Format the whole repo with Prettier                                            |
+| `pnpm format:check`                        | Check formatting without writing (used by CI)                                  |
 
 Run a script in one package with a filter, e.g. `pnpm --filter @ductmofficial/sen-ui test:watch`.
 
