@@ -1,5 +1,13 @@
 # @ductmofficial/sen-ui
 
+## 0.4.0
+
+### Minor Changes
+
+- 42eab97: Add `ComboBox` and `ComboBoxItem`, built on React Aria Components: a labelled text input that filters a list of options as the user types. The list opens on typing, ArrowDown or the button; arrow keys move through matches, Enter selects and Escape closes. Supports a `description`, an `error` that marks the field invalid, `emptyText` when nothing matches, `defaultItems` for local filtering, and `items` with `inputValue` / `onInputChange` for options loaded from a server.
+- 637f5cb: Add `Dialog`, `DialogTrigger` and `DialogActions`, built on React Aria Components. `DialogTrigger` takes the trigger (such as `Button`) and the `Dialog` it opens. The modal traps focus, moves focus inside when it opens and back to the trigger when it closes, closes on Escape and on an outside click (`isDismissable`, on by default), hides the rest of the page from assistive technology, and blocks scrolling. `title` names the dialog; `children` can be a function that receives `{ close }`. Use `role="alertdialog"` for confirmations, and `isOpen` / `onOpenChange` to control a dialog without a trigger.
+- 20ffe9b: Add `Select` and `SelectItem`, built on React Aria Components. A labelled button opens a list of options in a popover; it supports the keyboard (arrow keys, Enter, Space, type-ahead, Escape), disabled options, a `description`, an `error` that marks the field invalid, options from `items` with a render function, and a hidden native select for forms (`name`). Use `value` / `defaultValue` with `onChange`.
+
 ## 0.3.0
 
 ### Minor Changes
