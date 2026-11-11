@@ -1,6 +1,6 @@
 # Progress
 
-> Last updated: 2026-11-10
+> Last updated: 2026-11-11
 >
 > Legend: ✅ done · 🔄 in progress · ⬜ not started
 
@@ -8,14 +8,14 @@ Sen UI is an accessible React component library published to npm as `@ductmoffic
 
 ## Phases
 
-| #   | Phase              | Scope                                                                                                        | Release    | Status |
-| --- | ------------------ | ------------------------------------------------------------------------------------------------------------ | ---------- | ------ |
-| 0   | Foundation         | Library build, Storybook, a11y story tests, Pages, Changesets, npm release, `Button`, `TextField`            | `0.1.0`    | ✅     |
-| 1   | Tokens and theming | `tokens.css`, dark mode, Tailwind theme; `Button` and `TextField` on tokens                                  | `0.2.0`    | ✅     |
-| 2   | Simple components  | React Aria Components; `Checkbox`, `Tooltip`, `Tabs`                                                         | `0.3.0`    | ✅     |
-| 3   | Overlay components | `Dialog`, `Select`, `ComboBox` (`Toast` deferred)                                                            | `0.4.0`    | ✅     |
-| 4   | DataTable          | Typed columns, sort, global and column filters, virtualization, ARIA grid keyboard navigation, row selection | `0.5.0`    | ✅     |
-| 5   | Polish             | Screen reader pass, design decisions in the README, bundle size                                              | next minor | 🔄     |
+| #   | Phase              | Scope                                                                                                        | Release | Status |
+| --- | ------------------ | ------------------------------------------------------------------------------------------------------------ | ------- | ------ |
+| 0   | Foundation         | Library build, Storybook, a11y story tests, Pages, Changesets, npm release, `Button`, `TextField`            | `0.1.0` | ✅     |
+| 1   | Tokens and theming | `tokens.css`, dark mode, Tailwind theme; `Button` and `TextField` on tokens                                  | `0.2.0` | ✅     |
+| 2   | Simple components  | React Aria Components; `Checkbox`, `Tooltip`, `Tabs`                                                         | `0.3.0` | ✅     |
+| 3   | Overlay components | `Dialog`, `Select`, `ComboBox` (`Toast` deferred)                                                            | `0.4.0` | ✅     |
+| 4   | DataTable          | Typed columns, sort, global and column filters, virtualization, ARIA grid keyboard navigation, row selection | `0.5.0` | ✅     |
+| 5   | Polish             | Screen reader pass, design decisions in the README, bundle size                                              | `0.5.0` | ✅     |
 
 ## Phase 0 — Foundation
 
@@ -84,8 +84,10 @@ Released as `0.5.0`.
 | #   | Step                                                                                          | Status |
 | --- | --------------------------------------------------------------------------------------------- | ------ |
 | 1   | Bundle size per component (`pnpm --filter @ductmofficial/sen-ui size`), in the package README | ✅     |
-| 2   | Screen reader pass with VoiceOver on every component                                          | ⬜     |
-| 3   | Design decisions explained in the README                                                      | ⬜     |
+| 2   | Screen reader pass with VoiceOver on every component                                          | ✅     |
+| 3   | Design decisions explained in the README                                                      | ✅     |
+
+The package itself does not change in this phase, so there is no release; `0.5.0` stays the current version.
 
 ## Decisions
 
