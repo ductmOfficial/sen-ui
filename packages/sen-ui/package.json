@@ -42,6 +42,7 @@
     "dev": "vite build --watch",
     "lint": "eslint . --max-warnings=0",
     "lint:package": "publint --strict",
+    "size": "node scripts/size.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -56,6 +57,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@react-aria/optimize-locales-plugin": "^2.1.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/node": "^4.3.5",
@@ -68,6 +70,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitest/coverage-v8": "^5.1.0",
     "eslint": "^10.13.0",
+    "globals": "^17.14.0",
     "jsdom": "^31.0.0",
     "publint": "^0.3.25",
     "react": "^19.3.1",
