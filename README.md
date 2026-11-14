@@ -32,48 +32,7 @@ Created from the [`ductran-starter`](https://github.com/ductmOfficial/ductran-st
 | CI/CD       | GitHub Actions: verify every pull request, deploy Storybook to Pages, release to npm                                                           |
 | Conventions | Conventional Commits (commitlint + husky), protected `main`, PR template, issue forms                                                          |
 
-## Requirements
-
-- Node.js 24 (`.nvmrc`; run `nvm use` or `fnm use`)
-- pnpm 12 (`npm install -g pnpm`; the exact version is pinned in `packageManager`)
-
-`pnpm install` fails on a different Node major because `engineStrict` is enabled.
-
-## Getting started
-
-```bash
-git clone https://github.com/ductmOfficial/sen-ui.git
-cd sen-ui
-pnpm install                                           # also installs the git hooks
-pnpm --filter docs exec playwright install chromium    # browser for the story tests
-
-pnpm dev      # Storybook at http://localhost:6006, rebuilt when the library changes
-pnpm test     # component tests and story tests
-pnpm build    # build the library and the static Storybook
-```
-
-## Scripts
-
-Run from the repository root.
-
-| Script                                     | What it does                                                                   |
-| ------------------------------------------ | ------------------------------------------------------------------------------ |
-| `pnpm dev`                                 | Build the library, then watch it and run Storybook                             |
-| `pnpm build`                               | Build every package and app (`turbo run build`)                                |
-| `pnpm lint`                                | ESLint in every package; warnings fail the run                                 |
-| `pnpm lint:package`                        | Check the published shape of `@ductmofficial/sen-ui` with `publint --strict`   |
-| `pnpm --filter @ductmofficial/sen-ui size` | Bundle size per component, gzipped, from the built package                     |
-| `pnpm typecheck`                           | `tsc --noEmit` in every package                                                |
-| `pnpm test`                                | Vitest in every package, including story tests in Chromium                     |
-| `pnpm test:coverage`                       | Library tests with coverage; HTML report in `packages/sen-ui/coverage/`        |
-| `pnpm changeset`                           | Describe a change to the library for the next release                          |
-| `pnpm release`                             | Build the library and publish it with Changesets (run by the Release workflow) |
-| `pnpm format`                              | Format the whole repo with Prettier                                            |
-| `pnpm format:check`                        | Check formatting without writing (used by CI)                                  |
-
-Run a script in one package with a filter, e.g. `pnpm --filter @ductmofficial/sen-ui test:watch`.
-
-## Project structure
+## Structure
 
 ```
 .
@@ -100,6 +59,117 @@ Run a script in one package with a filter, e.g. `pnpm --filter @ductmofficial/se
 ├── pnpm-workspace.yaml
 └── PROGRESS.md                   # build log: steps, decisions, issues
 ```
+
+## Setup
+
+### 1. Prerequisites
+
+| Tool                | Version                    | Needed for           | Install                                               |
+| ------------------- | -------------------------- | -------------------- | ----------------------------------------------------- |
+| Node.js             | 24 (`.nvmrc`)              | everything           | `nvm install && nvm use` (or `fnm use`)               |
+| pnpm                | 12.14.0 (`packageManager`) | everything           | `corepack enable` (or `npm install -g pnpm@12.14.0`)  |
+| Git                 | any recent                 | everything           |                                                       |
+| Playwright Chromium | the version in `apps/docs` | story tests (`test`) | `pnpm --filter docs exec playwright install chromium` |
+
+`pnpm install` refuses other Node.js majors (`engineStrict`). Corepack ships with Node.js 24: after `corepack enable`, the first `pnpm` command downloads the exact version from `packageManager` (answer `Y` if it asks).
+
+No database and no environment variables are needed: the library and Storybook run without configuration, and releases authenticate to npm through GitHub's OIDC token, not a stored secret.
+
+### 2. Clone and install
+
+```bash
+git clone https://github.com/ductmOfficial/sen-ui.git
+cd sen-ui
+nvm use
+corepack enable
+pnpm install                                           # also installs the commit-msg hook
+pnpm --filter docs exec playwright install chromium    # browser for the story tests
+```
+
+## Running
+
+### Storybook
+
+```bash
+pnpm dev
+```
+
+Open http://localhost:6006. `pnpm dev` builds the library first, then runs `vite build --watch` in `packages/sen-ui` next to Storybook, so a change to a component shows up in its stories after the rebuild.
+
+### Static Storybook
+
+```bash
+pnpm build                    # the library and apps/docs/storybook-static
+```
+
+This is the same build GitHub Pages serves. Bundle sizes per component, gzipped, come from the built package: `pnpm --filter @ductmofficial/sen-ui size`.
+
+## Testing
+
+| Command                             | What it runs                                                                 |
+| ----------------------------------- | ---------------------------------------------------------------------------- |
+| `pnpm test`                         | Library tests in jsdom, and every story in headless Chromium with axe (a11y) |
+| `pnpm test:coverage`                | Library tests with coverage; HTML report in `packages/sen-ui/coverage/`      |
+| `pnpm lint` / `pnpm typecheck`      | ESLint (warnings fail) and `tsc --noEmit` everywhere                         |
+| `pnpm lint:package`                 | `publint --strict` on the built `@ductmofficial/sen-ui`                      |
+| `pnpm format:check` / `pnpm format` | Prettier check / write                                                       |
+| `pnpm build`                        | Build the library and the static Storybook                                   |
+
+The story tests start Chromium through Playwright; they need the browser from the install step, not a running Storybook.
+
+To run what CI runs before opening a pull request:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter docs exec playwright install chromium
+pnpm format:check
+pnpm turbo run lint typecheck test build lint:package
+```
+
+Run a script in one package with a filter, e.g. `pnpm --filter @ductmofficial/sen-ui test:watch`.
+
+### All scripts
+
+Run from the repository root.
+
+| Script                                     | What it does                                                                   |
+| ------------------------------------------ | ------------------------------------------------------------------------------ |
+| `pnpm dev`                                 | Build the library, then watch it and run Storybook                             |
+| `pnpm build`                               | Build every package and app (`turbo run build`)                                |
+| `pnpm lint`                                | ESLint in every package; warnings fail the run                                 |
+| `pnpm lint:package`                        | Check the published shape of `@ductmofficial/sen-ui` with `publint --strict`   |
+| `pnpm --filter @ductmofficial/sen-ui size` | Bundle size per component, gzipped, from the built package                     |
+| `pnpm typecheck`                           | `tsc --noEmit` in every package                                                |
+| `pnpm test`                                | Vitest in every package, including story tests in Chromium                     |
+| `pnpm test:coverage`                       | Library tests with coverage; HTML report in `packages/sen-ui/coverage/`        |
+| `pnpm changeset`                           | Describe a change to the library for the next release                          |
+| `pnpm release`                             | Build the library and publish it with Changesets (run by the Release workflow) |
+| `pnpm format`                              | Format the whole repo with Prettier                                            |
+| `pnpm format:check`                        | Check formatting without writing (used by CI)                                  |
+
+## Deployment
+
+Both happen on GitHub Actions after a merge to `main`; nothing is deployed from a laptop.
+
+| What                    | Where                                                      | Workflow              | How                                                                                     |
+| ----------------------- | ---------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------- |
+| Storybook               | [GitHub Pages](https://ductmofficial.github.io/sen-ui/)    | `storybook-pages.yml` | `pnpm turbo run build --filter=docs`, then uploads `apps/docs/storybook-static`         |
+| `@ductmofficial/sen-ui` | [npm](https://www.npmjs.com/package/@ductmofficial/sen-ui) | `release.yml`         | Changesets version pull request, then `pnpm release` with npm trusted publishing (OIDC) |
+
+No environment variables or repository secrets are involved. Pages must be set to "GitHub Actions" as its source, and npm must list this repository and `release.yml` as a trusted publisher of the package. The version pull request is described under _Releases_ in [How it works](#how-it-works).
+
+## Troubleshooting
+
+| Symptom                                                       | Fix                                                                                                                         |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm install` fails with `ERR_PNPM_UNSUPPORTED_ENGINE`       | Wrong Node.js major: `nvm use` (Node.js 24), then install again                                                             |
+| `pnpm: command not found`, or a different pnpm version runs   | `corepack enable`, then open a new terminal; `pnpm -v` should print `12.14.0`                                               |
+| Story tests fail with "Executable doesn't exist" for Chromium | `pnpm --filter docs exec playwright install chromium` (again after Playwright is updated)                                   |
+| Port 6006 is taken                                            | Stop the other Storybook, or run this one on another port: `pnpm --filter docs exec storybook dev --port 6007`              |
+| Storybook or `docs` cannot resolve `@ductmofficial/sen-ui`    | The docs import the built package: run `pnpm build` (or `pnpm dev`, which builds it first)                                  |
+| A machine with little memory kills the run (exit code 137)    | Run fewer tasks at once: `pnpm turbo run lint typecheck test build lint:package --concurrency=2`                            |
+| The version pull request has no `Verify` check                | It is opened with the workflow's token, which starts no workflows: close and reopen it                                      |
+| The commit is rejected                                        | The hook enforces [Conventional Commits](https://www.conventionalcommits.org): `feat(sen-ui): …`, `fix(docs): …`, `docs: …` |
 
 ## How it works
 
